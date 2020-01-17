@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>com.gitee.starblues</groupId>
+        <artifactId>rope-plugin-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../../rope-plugin-parent/pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>rope-basic-plugin</artifactId>
+
+    <properties>
+        <plugin.id>basic-plugin</plugin.id>
+        <plugin.class>com.starblues.rope.plugins.basic.BasicPlugin</plugin.class>
+        <plugin.version>${project.version}</plugin.version>
+        <plugin.provider>zhangzhuo</plugin.provider>
+        <plugin.description>基础插件</plugin.description>
+
+        <kafka_2.12.version>2.0.0</kafka_2.12.version>
+        <netty.version>4.1.44.Final</netty.version>
+    </properties>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.12</artifactId>
+            <version>${kafka_2.12.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+
+
+    </dependencies>
+
+</project>

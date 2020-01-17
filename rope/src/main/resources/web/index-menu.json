@@ -1,0 +1,43 @@
+[
+  {
+    "id": 100,
+    "label": "流程管理",
+    "path": "/guide",
+    "component": "views/guide/index",
+    "icon": "icon-canshu",
+    "children": [
+      {
+        "id": 100,
+        "label": "创建流程",
+        "path": "/guide/create",
+        "component": "views/admin/user/index",
+        "icon": "icon-yonghuguanli",
+        "children": []
+      },
+      {
+        "id": 90,
+        "label": "流程管理",
+        "path": "/guide",
+        "component": "views/guide/index",
+        "icon": "icon-canshu",
+        "children": []
+      },
+      {
+        "id": 80,
+        "label": "流程存储",
+        "path": "/guide",
+        "component": "views/guide/index",
+        "icon": "icon-canshu",
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "label": "插件管理",
+    "path": "/role",
+    "icon": "icon-quanxian",
+    "component": "views/role",
+    "children": []
+  }
+]

@@ -1,0 +1,25 @@
+.baseProcess{
+    .el-step.is-horizontal{
+        position: relative;
+        .el-step__main{
+            position: absolute;
+            left: 56%;
+            top: -7px;
+        }
+        .el-step__line {
+            left: 72%;
+            right: -38%
+        }
+        &:first-child,&:nth-child(3){
+            .el-step__line{
+                left: 83%;
+            }
+        }
+    }
+    .avue-form__group{
+        &>div{
+            width: 51%;
+            margin: 0 auto;
+        }
+    }
+}

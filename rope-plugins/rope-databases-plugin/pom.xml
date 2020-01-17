@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>com.gitee.starblues</groupId>
+        <artifactId>rope-plugin-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../../rope-plugin-parent/pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>rope-databases-plugin</artifactId>
+
+    <properties>
+        <plugin.id>rope-databases-plugin</plugin.id>
+        <plugin.class>com.starblues.rope.plugins.databases.DatabasesPlugin</plugin.class>
+        <plugin.version>${project.version}</plugin.version>
+        <plugin.provider>zhangzhuo</plugin.provider>
+        <plugin.description>数据库读写插件</plugin.description>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.gitee.starblues</groupId>
+            <artifactId>rope-database-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

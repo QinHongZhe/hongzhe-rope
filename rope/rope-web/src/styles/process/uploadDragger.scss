@@ -1,0 +1,25 @@
+.uploadDragger{
+    .el-upload{
+       display: block;
+    }
+    .avue-form__group{
+        &>.el-col{
+            padding-right: 100px!important;
+        }
+    }
+    .el-upload__tip{
+        display: block;
+    }
+    .el-upload-dragger{
+        width: 400px;
+        height: 310px;
+        margin: auto;
+    }
+    .avue-upload{
+        margin-top: 15px;
+    }
+    .el-form-item__content{
+        text-align: center;
+        margin-right: 100px;
+    }
+}

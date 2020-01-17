@@ -1,0 +1,127 @@
+server:
+  port: 8080
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+  datasource:
+    url: jdbc:h2:.//data//repository/database
+    driver-class-name: org.h2.Driver
+    username: root
+    password: 123456
+  # 禁用spring-boot自带的flyway
+  flyway:
+    enabled: false
+
+
+mybatis-plus:
+  typeAliasesPackage: com.sino.datatransfer.repository.entity
+  mapperLocations: classpath*:mapper/*.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
+    # 开启可查看执行的sql
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+data-transfer:
+  # 名称
+  name: 开发环境测试
+  # 输入管理器的配置
+  inputManager:
+    # 周期性获取数据的配置。基于 java 的调度器实现
+    periodAcquire:
+      # 核心线程池的数量。>=0
+      corePoolSize: 0
+  # 输出管理器的配置
+  outputManager:
+    # 周期性输出的配置
+    timeInterval:
+      # 核心线程池的数量。>=0
+      corePoolSize: 0
+  # 输出线程池的配置。
+  outputPoll:
+    # 核心线程数. 可根据写入者数量和写入速度均衡调整合适大小。默认 100
+    # 该处配置很重要，影响到系统写入并发和系统写入速度。直接影响性能。
+    corePoolSize: 100
+    # 最大线程数.默认: 1024。最大<=2147483647
+    maximumPoolSize: 1024
+    # 线程存活时间。单位：毫秒.默认0
+    keepAliveTimeMs: 0
+  # 输入数据传输器的配置
+  inputTransport:
+    # 传输器id。可选：default、buffer
+    id: buffer
+    # 转换器的参数。当前配置参数为 buffer 需要的参数
+    params:
+      # 缓冲大小。必须为 2 的n次方
+      bufferSize: 65536
+      # 缓冲消费者等待策略, 可选: sleeping, yielding, blocking, busy_spinning
+      waitStrategy: blocking
+      # 缓冲消费池的消费者数量
+      consumePoolSize: 1
+  # 输出数据传输器的配置。同 inputTransport 配置
+  outputTransport:
+    id: buffer
+    params:
+      bufferSize: 65536
+      waitStrategy: blocking
+      consumePoolSize: 1
+  # 流程存储的配置
+  processStorages:
+    # json 文件流程存储者
+    - id: json-file
+      params:
+        # 文件存储目录
+        storePath: .//data//process//json
+    # yml 文件流程存储者
+    - id: yml-file
+      params:
+        # 文件存储目录
+        storePath: .//data//process//yml
+    # 内存流程存储者
+    - id: memory
+
+plugin:
+  # 运行项目时的模式。分为开发环境(dev)、生产环境(prod)
+  runMode: dev
+  # 插件的路径。开发环境建议直接配置为插件模块的父级目录。例如: plugins。如果启动主程序时, 插件为加载, 请检查该配置是否正确。
+  pluginPath: ./rope-plugins
+  # 在生产环境下, 插件的配置文件路径。
+  # 在生产环境下， 请将所有插件使用到的配置文件统一放到该路径下管理。
+  # 如果启动主程序时, 报插件的配置文件加载错误, 有可能是该该配置不合适导致的。
+  pluginConfigFilePath:
+  # 备份插件包的目录
+  backupPluginPath: backupPlugin
+  # 上传的插件所存储的临时目录
+  uploadTempPath: temp
+
+# 前端配置
+web:
+  # 配置项目
+  config:
+    # 环境
+    env: prod
+    # 后端请求地址
+    serverUrl: http://127.0.0.1:8080
+
+# 验证码配置
+captcha:
+  # 是否启用
+  enable: true
+  # 验证码cookie的key
+  cookieKey: captcha
+  # 过期时间。单位秒.默认300秒(3分钟)过期
+  expire: 300
+  # 验证码配置。详见: https://www.cnblogs.com/louis80/p/5230507.html
+  config:
+    kaptcha.image.width: 125
+    kaptcha.image.height: 45
+    kaptcha.textproducer.font.color: 11,10,11
+    kaptcha.textproducer.font.size: 40
+    kaptcha.textproducer.char.length: 4
+    kaptcha.textproducer.char.space: 6
+    kaptcha.obscurificator.impl: com.google.code.kaptcha.impl.ShadowGimpy
+    kaptcha.noise.impl: com.google.code.kaptcha.impl.NoNoise
+    kaptcha.textproducer.char.string: 0123456789
+

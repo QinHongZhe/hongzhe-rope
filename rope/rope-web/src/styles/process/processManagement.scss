@@ -1,0 +1,33 @@
+.processManagement {
+    .avue-crud-search{
+        display: inline-block;
+    }
+    .avue-crud__menu{
+        width: auto;
+        float: right;
+    }
+    .avue-group {
+        display: inline-block;
+        vertical-align: middle;
+        .el-form-item__content {
+            margin-left: 60px !important;
+            width: 170px !important;
+            margin-right: 10px;
+        }
+    }
+
+    .el-col {
+        display: inline-block;
+        float: none;
+        width: auto;
+        vertical-align: top;
+    }
+
+    .el-form-item__label {
+        width: 60px !important;
+    }
+
+    .el-form-item__content {
+        
+    }
+}
