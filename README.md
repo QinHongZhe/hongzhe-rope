@@ -32,4 +32,4 @@ rope 是一款轻量级别的ETL(Extract-Transform-Load)工具。主要用于从
 
 
 # 说明文档
-[文档](https://gitee.com/starblues/rope/wikis/pages)
+[点击查看文档](https://gitee.com/starblues/rope/wikis/pages)
