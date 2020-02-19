@@ -19,8 +19,8 @@ import java.util.Map;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "data-transfer")
-public class DataTransferConfiguration {
+@ConfigurationProperties(prefix = "rope-core")
+public class RopeCoreConfiguration {
 
     @Value("${name:dataTransfer}")
     private String name;

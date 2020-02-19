@@ -68,7 +68,7 @@ public class OutputFactory {
         if(StringUtils.isEmpty(outputId)){
             throw new IllegalArgumentException("Output id can't be empty");
         }
-        List<ProcessConfig.WriteConfig> writers = outputConfig.getWriters();
+        List<ProcessConfig.WriterConfig> writers = outputConfig.getWriters();
 
         Output output = null;
 
@@ -92,7 +92,7 @@ public class OutputFactory {
         }
 
         if(writers != null && !writers.isEmpty()){
-            for (ProcessConfig.WriteConfig writerConfig : writers) {
+            for (ProcessConfig.WriterConfig writerConfig : writers) {
                 Output.WriterWrapper writerWrapper = getWriteAndInit(processId, pluginUser, writerConfig);
                 output.addWriter(writerWrapper);
             }
@@ -113,7 +113,7 @@ public class OutputFactory {
      * @throws Exception 产生的异常
      */
     private Output.WriterWrapper getWriteAndInit(String processId, PluginUser pluginUser,
-                                                 ProcessConfig.WriteConfig writerConfig) throws Exception {
+                                                 ProcessConfig.WriterConfig writerConfig) throws Exception {
         if(writerConfig == null){
             throw new NullPointerException("ProcessInfo output write config can't be null");
         }
@@ -146,7 +146,7 @@ public class OutputFactory {
      */
     private void setWriterConverter(Writer writer,
                                     PluginUser pluginUser,
-                                    ProcessConfig.WriteConfig writerConfig) throws Exception{
+                                    ProcessConfig.WriterConfig writerConfig) throws Exception{
         if(!(writer instanceof AbstractConverterWriter)){
             return;
         }

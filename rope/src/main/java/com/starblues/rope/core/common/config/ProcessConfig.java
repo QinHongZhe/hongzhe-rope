@@ -74,7 +74,7 @@ public class ProcessConfig implements Serializable {
         /**
          * 该流程的写入者配置。可配置多个
          */
-        private List<WriteConfig> writers;
+        private List<WriterConfig> writers;
 
     }
 
@@ -82,7 +82,7 @@ public class ProcessConfig implements Serializable {
      * 写入者配置
      */
     @Data
-    public static class WriteConfig extends CommonConfig{
+    public static class WriterConfig extends CommonConfig{
 
         /**
          * 写入者的数据转换器

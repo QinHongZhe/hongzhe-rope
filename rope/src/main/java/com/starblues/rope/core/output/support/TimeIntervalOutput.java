@@ -125,7 +125,7 @@ public class TimeIntervalOutput extends AbstractCacheOutput implements Runnable{
                     NumberField.toBuilder(TIME_INTERVAL, "时间间隔", DEFAULT_TIME_INTERVAL)
                             .required(true)
                             .attribute(NumberField.Attribute.ONLY_POSITIVE)
-                            .description("当达到时间间隔, 无论设定大小是多少, 都进行批量输出")
+                            .description("当达到时间间隔, 无论设定大小是多少, 都进行批量输出。单位: 秒")
                             .build()
             );
 

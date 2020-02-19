@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.ToString;
 import io.netty.bootstrap.Bootstrap;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
 import java.util.List;
@@ -37,6 +38,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @Slf4j
 public class TcpNettyWriter extends AbstractConverterWriter<String> {
 
+    private static final String ID = "tcp";
 
     private final Gson gson;
     private final Config config;

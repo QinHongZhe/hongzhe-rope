@@ -4,7 +4,7 @@ import com.gitee.starblues.integration.application.PluginApplication;
 import com.gitee.starblues.integration.user.PluginUser;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
-import com.starblues.rope.config.configuration.DataTransferConfiguration;
+import com.starblues.rope.config.configuration.RopeCoreConfiguration;
 import com.starblues.rope.core.common.param.ConfigParamInfo;
 import com.starblues.rope.core.common.param.ConfigParameter;
 import lombok.Data;
@@ -34,13 +34,13 @@ public class ProcessStorageFactory {
 
     private final AtomicBoolean isInit = new AtomicBoolean(false);
     private final PluginApplication pluginApplication;
-    private final List<DataTransferConfiguration.ProcessStorageConfig> processStorageConfigs;
+    private final List<RopeCoreConfiguration.ProcessStorageConfig> processStorageConfigs;
 
 
     private PluginUser pluginUser;
 
     public ProcessStorageFactory(PluginApplication pluginApplication,
-                                 DataTransferConfiguration dataTransferConfiguration) {
+                                 RopeCoreConfiguration dataTransferConfiguration) {
         this.pluginApplication = pluginApplication;
         this.processStorageConfigs = dataTransferConfiguration.getProcessStorages();
     }
@@ -57,7 +57,7 @@ public class ProcessStorageFactory {
             return;
         }
         this.pluginUser = pluginApplication.getPluginUser();
-        for (DataTransferConfiguration.ProcessStorageConfig processStorageConfig : processStorageConfigs) {
+        for (RopeCoreConfiguration.ProcessStorageConfig processStorageConfig : processStorageConfigs) {
             if(processStorageConfig == null){
                 continue;
             }

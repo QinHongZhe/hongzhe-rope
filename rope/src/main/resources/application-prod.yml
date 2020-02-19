@@ -1,12 +1,16 @@
 server:
+  # 配置端口
   port: 8080
 
+# spring 的配置
 spring:
   servlet:
+    # 配置上传文件的最大大小
     multipart:
       max-file-size: 1024MB
       max-request-size: 1024MB
   datasource:
+    # h2 数据库的配置
     url: jdbc:h2:.//data//repository/database
     driver-class-name: org.h2.Driver
     username: root
@@ -16,14 +20,15 @@ spring:
     enabled: false
 
 mybatis-plus:
-  typeAliasesPackage: com.sino.datatransfer.repository.entity
+  typeAliasesPackage: com.starblues.rope.repository.entity
   mapperLocations: classpath*:mapper/*.xml
   configuration:
     mapUnderscoreToCamelCase: true
     # 开启可查看执行的sql
     # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-data-transfer:
+# 系统核心配置
+rope-core:
   # 名称
   name: 开发环境测试
   # 输入管理器的配置

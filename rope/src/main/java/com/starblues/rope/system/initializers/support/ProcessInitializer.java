@@ -1,6 +1,6 @@
 package com.starblues.rope.system.initializers.support;
 
-import com.starblues.rope.config.configuration.DataTransferConfiguration;
+import com.starblues.rope.config.configuration.RopeCoreConfiguration;
 import com.starblues.rope.core.common.config.CommonConfig;
 import com.starblues.rope.process.config.Configuration;
 import com.starblues.rope.process.factory.ProcessFactory;
@@ -20,11 +20,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ProcessInitializer extends AbstractInitializer {
 
-    private final DataTransferConfiguration config;
+    private final RopeCoreConfiguration config;
     private final ProcessStorageFactory processStorageFactory;
     private final ProcessFactory processFactory;
 
-    public ProcessInitializer(DataTransferConfiguration configuration,
+    public ProcessInitializer(RopeCoreConfiguration configuration,
                               ProcessFactory processFactory,
                               ProcessStorageFactory processStorageFactory) {
         this.config = configuration;
@@ -73,7 +73,7 @@ public class ProcessInitializer extends AbstractInitializer {
      * @param transport transport
      * @return CommonConfig
      */
-    private CommonConfig getCommonConfig(DataTransferConfiguration.Transport transport){
+    private CommonConfig getCommonConfig(RopeCoreConfiguration.Transport transport){
         return CommonConfig.builder()
                 .id(transport.getId())
                 .params(transport.getParams())

@@ -4,7 +4,8 @@
 drop table if exists user;
 create table user (
   user_id varchar(32) NOT NULL primary KEY COMMENT '用户id',
-  name varchar(32) DEFAULT NULL COMMENT '名称',
+  name varchar(32) DEFAULT NULL COMMENT '姓名',
+  email varchar(64) DEFAULT NULL COMMENT '邮箱',
   username varchar(32) NOT NULL COMMENT '用户名',
   password varchar(255) NOT NULL COMMENT '密码',
   salt varchar(64) NOT NULL DEFAULT '' COMMENT '加盐的字符串',
@@ -15,4 +16,4 @@ create table user (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO user VALUES ('1', '超级管理员', 'admin', '043f670a03227b0206cd6cc8847df911', 'fb84953ececb4f68bd6fe38b2bcf357a', '2', '3600000');
+INSERT INTO user VALUES ('1', '超级管理员', '', 'admin', '043f670a03227b0206cd6cc8847df911', 'fb84953ececb4f68bd6fe38b2bcf357a', '2', '3600000');

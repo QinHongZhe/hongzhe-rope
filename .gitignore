@@ -33,3 +33,7 @@ node_modules/
 dist/
 npm-debug.log
 package-lock.json
+
+# 数据文件
+data/**/*.json
+*.db

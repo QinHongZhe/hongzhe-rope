@@ -7,6 +7,7 @@ spring:
       max-file-size: 1024MB
       max-request-size: 1024MB
   datasource:
+    # h2 数据库的url
     url: jdbc:h2:.//data//repository/database
     driver-class-name: org.h2.Driver
     username: root
@@ -17,14 +18,15 @@ spring:
 
 
 mybatis-plus:
-  typeAliasesPackage: com.sino.datatransfer.repository.entity
+  typeAliasesPackage: com.starblues.rope.repository.entity
   mapperLocations: classpath*:mapper/*.xml
   configuration:
     mapUnderscoreToCamelCase: true
     # 开启可查看执行的sql
     # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-data-transfer:
+# 系统核心配置
+rope-core:
   # 名称
   name: 开发环境测试
   # 输入管理器的配置
