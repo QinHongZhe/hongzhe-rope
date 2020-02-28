@@ -18,12 +18,12 @@ mkdir %pluginConfigPath%
 
 
 REM copy main program and config
-xcopy data-transfer\target\data-transfer-*-exec.jar %distPath% /s /i
-xcopy data-transfer\src\main\resources\application-prod.yml %distPath% /s
+xcopy rope\target\rope-*-exec.jar %distPath% /s /i
+xcopy rope\src\main\resources\application-prod.yml %distPath% /s
 
 
 REM copy plugin and config
-for /d %%i in (plugins\*) do (
+for /d %%i in (rope-plugins\*) do (
     xcopy %%i\target\*-jar-with-dependencies.jar %pluginPath% /s /i
     xcopy %%i\src\main\resources\*.yml %pluginConfigPath% /s /i
 )
@@ -31,7 +31,7 @@ for /d %%i in (plugins\*) do (
 xcopy %buildPath%\start\start.bat %distPath%\ /s /i /y
 
 cd %distPath%
-rename data-transfer-*-exec.jar data-transfer-start.jar
+rename rope-*-exec.jar rope-start.jar
 rename application-prod.yml application.yml
 
 

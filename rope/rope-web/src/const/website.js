@@ -2,9 +2,9 @@
  * 全局配置文件
  */
 export default {
-    title : "data-transfer",
-    logo : "data-transfer",
-    indexTitle : 'data-transfer',
+    title : "Rope",
+    logo : "Rope",
+    indexTitle : 'Rope',
     lockPage : '/lock',
     tokenTime : 6000,
     info : {
