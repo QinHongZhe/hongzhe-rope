@@ -34,6 +34,9 @@ Rope 是一款轻量级别的ETL(Extract-Transform-Load)工具。主要用于从
 ## 说明文档
 [点击查看文档](https://gitee.com/starblues/rope/wikis/pages)
 
+## 开发环境配置
+详见文档：[开发环境运行与配置文档](https://gitee.com/starblues/rope/wikis/pages?sort_id=2005921&doc_id=507971)
+
 ## 发行版下载
 
 - V1.0.0：[https://gitee.com/starblues/rope/attach_files/349986/download](https://gitee.com/starblues/rope/attach_files/349986/download)
