@@ -31,8 +31,11 @@ Rope 是一款轻量级别的ETL(Extract-Transform-Load)工具。主要用于从
 数据转换器，该组件主要用于数据类型的转换，大部分情况是配合`Reader` `Writer`实现的，核心思想是让`Reader` `Writer`关心数据的读取、写入，它关心数据类型的转换细节。这样就具有很强的扩展性。
 
 
-## 说明文档
+## 详细文档
 [点击查看文档](https://gitee.com/starblues/rope/wikis/pages)
+
+## 开发环境配置
+详见文档：[开发环境运行与配置文档](https://gitee.com/starblues/rope/wikis/pages?sort_id=2005921&doc_id=507971)
 
 ## 发行版下载
 
