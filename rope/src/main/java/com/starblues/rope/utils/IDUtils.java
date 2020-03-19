@@ -6,7 +6,7 @@ import java.util.UUID;
 /**
  * id 工具类
  *
- * @author zhangzhuo
+ * @author zhangzhuo lijing
  * @version 1.0
  */
 public class IDUtils {
