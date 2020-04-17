@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 /**
  * 插件集成配置
  *
- * @author zhangzhuo
+ * @author zhangzhuo 李静
  * @version 1.0
  */
 @Component
