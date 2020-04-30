@@ -7,6 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * 一次性输入管理者
@@ -19,9 +22,11 @@ public class OneInputManager extends AbstractManager<OneReaderInput> {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final Transport transport;
+    private final ExecutorService executor;
 
     public OneInputManager(Transport transport) {
         this.transport = Objects.requireNonNull(transport, "transport can't be null");
+        executor = Executors.newCachedThreadPool();
     }
 
 
@@ -37,7 +42,13 @@ public class OneInputManager extends AbstractManager<OneReaderInput> {
 
     @Override
     protected void toStart(OneReaderInput managed) throws Exception {
-        managed.start(transport);
+        executor.execute(()->{
+            try {
+                managed.start(transport);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
