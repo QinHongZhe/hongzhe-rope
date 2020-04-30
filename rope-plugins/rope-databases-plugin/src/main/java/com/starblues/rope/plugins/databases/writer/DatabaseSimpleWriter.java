@@ -136,7 +136,7 @@ public class DatabaseSimpleWriter extends AbstractWriter {
                 }
                 Map<String, Object> bindMap = getBindMap(record);
                 if(bindMap != null && !bindMap.isEmpty()){
-                    preparedBatch.bindMap(bindMap).add();
+                    preparedBatch = preparedBatch.bindMap(bindMap).add();
                 }
             }
             preparedBatch.execute();
