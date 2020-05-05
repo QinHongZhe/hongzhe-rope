@@ -14,7 +14,7 @@
 
     <groupId>com.gitee.starblues</groupId>
     <artifactId>rope</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1.RELEASE</version>
     <packaging>jar</packaging>
     <description>主程序</description>
 
