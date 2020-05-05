@@ -8,7 +8,7 @@
 
     <groupId>com.gitee.starblues</groupId>
     <artifactId>rope-runner</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1.RELEASE</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -68,6 +68,15 @@
             <version>${netty.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.alibaba/easyexcel -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>2.2.3</version>
+            <scope>provided</scope>
+        </dependency>
+
 
     </dependencies>
 
