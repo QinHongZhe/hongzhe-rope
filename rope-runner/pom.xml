@@ -60,23 +60,12 @@
             <scope>provided</scope>
         </dependency>
 
-
-
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>${netty.version}</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.alibaba/easyexcel -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>easyexcel</artifactId>
-            <version>2.2.3</version>
-            <scope>provided</scope>
-        </dependency>
-
 
     </dependencies>
 
