@@ -9,6 +9,8 @@ import com.starblues.rope.core.model.record.RecordGroup;
 import com.starblues.rope.core.transport.Transport;
 import com.starblues.rope.utils.MetricUtils;
 
+import java.util.List;
+
 /**
  * Transport 数据消费者
  *
@@ -50,11 +52,15 @@ public class TransportConsumer extends AbstractStateConsumer{
 
     @Override
     protected void acceptImpl(Record record) {
+        if(record == null){
+            return;
+        }
         RecordWrapper recordWrapper = new RecordWrapper();
         recordWrapper.setProcessId(processId);
         RecordGroup group = new RecordGroup();
         group.addRecord(record);
         recordWrapper.setRecordGroup(group);
+        recordWrapper.setRecordType(record.getClass());
         throughputMetric.countCounter().inc();
         throughputMetric.byteCounter().inc(record.getByteSize());
         transport.input(recordWrapper);
@@ -62,12 +68,23 @@ public class TransportConsumer extends AbstractStateConsumer{
 
     @Override
     protected void acceptImpl(RecordGroup recordGroup) {
-        RecordWrapper recordWrapper = new RecordWrapper();
-        recordWrapper.setProcessId(processId);
-        recordWrapper.setRecordGroup(recordGroup);
-        throughputMetric.countCounter().inc(recordGroup.size());
-        throughputMetric.byteCounter().inc(recordGroup.getByteSize());
-        transport.input(recordWrapper);
+        if(recordGroup == null){
+            return;
+        }
+        List<Record> records = recordGroup.getRecords();
+        if(records != null && !records.isEmpty()){
+            RecordWrapper recordWrapper = new RecordWrapper();
+            recordWrapper.setProcessId(processId);
+            recordWrapper.setRecordGroup(recordGroup);
+
+            // 取第一条记录设置记录的类型
+            Record record = records.get(0);
+            recordWrapper.setRecordType(record.getClass());
+
+            throughputMetric.countCounter().inc(recordGroup.size());
+            throughputMetric.byteCounter().inc(recordGroup.getByteSize());
+            transport.input(recordWrapper);
+        }
     }
 
 

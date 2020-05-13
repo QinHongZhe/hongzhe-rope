@@ -20,15 +20,15 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public abstract class AbstractCacheOutput extends AbstractOutput{
 
-
-
     /**
-     * 输出的缓存。
+     * 输出的缓存
      */
     private OutputCacheFactory outputCacheFactory;
 
 
-
+    /**
+     * 判断数据是否写入中
+     */
     private AtomicBoolean writing = new AtomicBoolean(false);
 
 
@@ -69,6 +69,11 @@ public abstract class AbstractCacheOutput extends AbstractOutput{
             return;
         }
         int count = 0;
+        if(recordWrapper.isLastRecordSigner()){
+            // 如果为最后一条记录的标记者, 则直接进行输出
+            outputToWrite();
+            return;
+        }
         for (WriterWrapper writerWrapper : writerWrappers) {
             Writer writer = writerWrapper.getWriter();
             try {

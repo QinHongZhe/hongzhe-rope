@@ -7,7 +7,7 @@ import lombok.ToString;
 import java.util.List;
 
 /**
- * 记录组
+ * 记录分组
  *
  * @author zhangzhuo
  * @version 1.0
@@ -16,12 +16,18 @@ import java.util.List;
 @ToString
 public class RecordGroup {
 
+    /**
+     * 该记录组的字节大小
+     */
     private long byteSize = 0L;
-    private List<Record> records;
 
     /**
-     * Record本身需要的内存
+     * 记录组
      */
+    private List<Record> records;
+
+
+
     public RecordGroup(){
         this.records = Lists.newArrayList();
     }
@@ -48,5 +54,6 @@ public class RecordGroup {
     public int size(){
         return records.size();
     }
+
 
 }

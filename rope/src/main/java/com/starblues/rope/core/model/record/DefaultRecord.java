@@ -5,6 +5,7 @@ import com.starblues.rope.utils.ClassSize;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 默认的记录
@@ -16,8 +17,14 @@ public class DefaultRecord implements Record{
 
     private static final int RECORD_COLUMN_NUMBER = 16;
 
+    /**
+     * 数据记录的列集合
+     */
     private Map<String, Column> columns;
 
+    /**
+     * 数据的字节大小
+     */
     private int byteSize;
 
     /**
@@ -107,6 +114,7 @@ public class DefaultRecord implements Record{
     public boolean isEmpty() {
         return columns.isEmpty();
     }
+
 
     public long getMemorySize(){
         return oneselfMemorySize;
