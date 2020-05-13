@@ -66,6 +66,10 @@ public class PluginResource extends BaseResource{
             paramType = "path")
     @PostMapping("stop/{pluginId}")
     public Result<List<PluginInfo>> stop(@PathVariable("pluginId") String pluginId){
+        return responseBody(Result.ResponseEnum.OPERATE_ERROR,
+                TextUtils.format("停止插件 '{}' 失败", pluginId));
+        // 暂不提供停止插件接口
+        /**
         try {
             if(pluginOperator().stop(pluginId)){
                 return responseBody(Result.ResponseEnum.OPERATE_SUCCESS,
@@ -79,6 +83,7 @@ public class PluginResource extends BaseResource{
             return responseBody(Result.ResponseEnum.OPERATE_ERROR,
                     TextUtils.format("停止插件 '{}' 失败 : {}", pluginId, e.getMessage()));
         }
+        **/
     }
 
 
@@ -159,6 +164,10 @@ public class PluginResource extends BaseResource{
             paramType = "path")
     @PostMapping("uninstall/{pluginId}")
     public Result<List<PluginInfo>> uninstall(@PathVariable("pluginId") String pluginId){
+        return responseBody(Result.ResponseEnum.OPERATE_ERROR, "卸载插件失败");
+
+        // 暂不提供停止插件接口
+        /**
         try {
             if(pluginOperator().uninstall(pluginId, true)){
                 return responseBody(Result.ResponseEnum.OPERATE_SUCCESS, "卸载插件成功");
@@ -169,6 +178,7 @@ public class PluginResource extends BaseResource{
             e.printStackTrace();
             return responseBody(Result.ResponseEnum.OPERATE_ERROR, "卸载插件失败: " + e.getMessage());
         }
+        **/
     }
 
 
