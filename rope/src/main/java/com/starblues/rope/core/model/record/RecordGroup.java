@@ -4,6 +4,8 @@ import com.google.common.collect.Lists;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,13 +35,30 @@ public class RecordGroup {
     }
 
 
-
+    /**
+     * 添加单条记录
+     * @param record 记录
+     */
     public void addRecord(Record record){
         if(record == null){
             return;
         }
         records.add(record);
         this.byteSize = this.byteSize + record.getByteSize();
+    }
+
+
+    /**
+     * 添加多条记录
+     * @param records 记录集合
+     */
+    public void addRecord(Collection<Record> records){
+        if(records == null || records.isEmpty()){
+            return;
+        }
+        for (Record record : records) {
+            addRecord(record);
+        }
     }
 
 
