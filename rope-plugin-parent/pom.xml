@@ -27,6 +27,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <rope-version>1.0.2.RELEASE</rope-version>
         <lombok.version>1.18.10</lombok.version>
 
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -39,7 +40,7 @@
         <dependency>
             <groupId>com.gitee.starblues</groupId>
             <artifactId>rope</artifactId>
-            <version>${project.version}</version>
+            <version>${rope-version}</version>
             <scope>provided</scope>
         </dependency>
 
