@@ -8,7 +8,7 @@
     <groupId>com.gitee.starblues</groupId>
     <artifactId>rope-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.1.RELEASE</version>
+    <version>1.0.2.RELEASE</version>
 
     <modules>
         <module>rope</module>

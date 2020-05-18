@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.gitee.starblues</groupId>
         <artifactId>rope-parent</artifactId>
-        <version>1.0.1.RELEASE</version>
+        <version>1.0.2.RELEASE</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
