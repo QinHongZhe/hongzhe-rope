@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.gitee.starblues</groupId>
         <artifactId>rope-plugin-parent</artifactId>
-        <version>1.0.1.RELEASE</version>
+        <version>1.0.2.RELEASE</version>
         <relativePath>../../rope-plugin-parent/pom.xml</relativePath>
     </parent>
 
@@ -18,7 +18,7 @@
         <plugin.id>basic-plugin</plugin.id>
         <plugin.class>com.starblues.rope.plugins.basic.BasicPlugin</plugin.class>
         <plugin.version>${project.version}</plugin.version>
-        <plugin.provider>zhangzhuo</plugin.provider>
+        <plugin.provider>starblues</plugin.provider>
         <plugin.description>基础插件</plugin.description>
 
         <kafka_2.12.version>2.0.0</kafka_2.12.version>
