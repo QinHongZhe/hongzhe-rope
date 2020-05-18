@@ -38,6 +38,10 @@ public class SimpleOutput extends AbstractOutput {
         if(canNotOutput()){
             return;
         }
+        if(!recordWrapper.isUserRecord()){
+            // 如果不是用户的数据, 则进行返回
+            return;
+        }
         List<Record> records = recordWrapper.getRecordGroup().getRecords();
         if(records == null || records.isEmpty()){
             return;

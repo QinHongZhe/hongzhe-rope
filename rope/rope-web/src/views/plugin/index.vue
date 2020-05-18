@@ -4,22 +4,24 @@
                    :table-loading="loading"
                    @search-change="search"
                    @refresh-change="refresh">
-            <template slot-scope="scope" slot="menu">
-                <el-button type="primary"
-                           size="small"
-                           plain
-                           v-if="showStartBtn(scope.row)"
-                           @click="start(scope.row)">启动</el-button>
-                <el-button type="primary"
-                           size="small"
-                           plain
-                           v-if="scope.row.pluginState === 'STARTED'"
-                           @click="stop(scope.row)">停止</el-button>
-                <el-button type="primary"
-                           size="small"
-                           plain
-                           @click="uninstall(scope.row)">卸载</el-button>
-            </template>
+            <!-- 暂不提供启动、停止、卸载功能。该操作可能会出现意想不到的bug
+            <template slot-scope="scope" slot="menu">-->
+                <!--<el-button type="primary"-->
+                           <!--size="small"-->
+                           <!--plain-->
+                           <!--v-if="showStartBtn(scope.row)"-->
+                           <!--@click="start(scope.row)">启动</el-button>-->
+                <!--<el-button type="primary"-->
+                           <!--size="small"-->
+                           <!--plain-->
+                           <!--v-if="scope.row.pluginState === 'STARTED'"-->
+                           <!--@click="stop(scope.row)">停止</el-button>-->
+                <!--<el-button type="primary"-->
+                           <!--size="small"-->
+                           <!--plain-->
+                           <!--@click="uninstall(scope.row)">卸载</el-button>-->
+            <!--</template>
+            -->
         </avue-crud>
     </basic-container>
 </template>

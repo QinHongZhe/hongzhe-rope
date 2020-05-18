@@ -1,8 +1,10 @@
 package com.starblues.rope.core.input.support.reader;
 
+import com.starblues.rope.core.common.State;
 import com.starblues.rope.core.common.param.ConfigParameter;
 import com.starblues.rope.core.input.AbstractReaderInput;
 import com.starblues.rope.core.input.reader.Consumer;
+import com.starblues.rope.core.model.record.LastRecordSigner;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -23,8 +25,12 @@ public class OneReaderInput extends AbstractReaderInput {
     @Override
     protected void startAfter(Consumer consumer) throws Exception {
         super.readRecord();
-        super.stop();
+        if(state() == State.RUNNING){
+            // 如果是运行状态, 则新增最后一条记录的标记
+            consumer.accept(new LastRecordSigner());
+        }
     }
+
 
     @Override
     public void initialize() throws Exception {}

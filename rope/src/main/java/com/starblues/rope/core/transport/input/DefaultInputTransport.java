@@ -3,6 +3,7 @@ package com.starblues.rope.core.transport.input;
 import com.starblues.rope.config.constant.MetricsConstant;
 import com.starblues.rope.core.handler.DateHandler;
 import com.starblues.rope.core.model.RecordWrapper;
+import com.starblues.rope.core.model.record.DefaultRecord;
 import com.starblues.rope.core.model.record.Record;
 import com.starblues.rope.core.model.record.RecordGroup;
 import com.starblues.rope.core.transport.AbstractTransport;
@@ -79,14 +80,17 @@ public class DefaultInputTransport extends AbstractTransport {
                 log.debug("ProcessInfo id {} records is empty", processId);
                 return;
             }
-            RecordGroup handleRecordGroup = new RecordGroup();
-            for (Record record : records) {
-                Record handleRecord = dateHandler.handle(record);
-                if(handleRecord != null){
-                    handleRecordGroup.addRecord(handleRecord);
+            if(recordWrapper.getRecordType() == DefaultRecord.class){
+                // 只有默认的记录才能进入数据矗立着
+                RecordGroup handleRecordGroup = new RecordGroup();
+                for (Record record : records) {
+                    Record handleRecord = dateHandler.handle(record);
+                    if(handleRecord != null){
+                        handleRecordGroup.addRecord(handleRecord);
+                    }
                 }
+                recordWrapper.setRecordGroup(handleRecordGroup);
             }
-            recordWrapper.setRecordGroup(handleRecordGroup);
             outputTransport.input(recordWrapper);
         } catch (Exception e) {
             log.error("The DateHandler '{}' handle record ['']  failed in the process '{}'. " +
