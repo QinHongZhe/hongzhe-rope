@@ -44,6 +44,11 @@ public class MemoryProcessStorage implements ProcessStorage {
         processConfigMap.put(processConfig.getProcessId(), processConfig);
     }
 
+    @Override
+    public boolean exist(String processId) {
+        return processConfigMap.containsKey(processId);
+    }
+
 
     @Override
     public void delete(String processId) throws Exception {

@@ -122,9 +122,45 @@ public class ProcessStorageFactory {
         return ImmutableList.copyOf(initializeProcessStorage.values());
     }
 
+
+    /**
+     * 根据流程id得到流程信息
+     * @param processId 流程id
+     * @return ProcessStorage.ProcessInfo 流程信息
+     */
+    public ProcessStorage.ProcessInfo getProcessInfo(String processId){
+        for (ProcessStorage processStorage : initializeProcessStorage.values()) {
+            if(processStorage.exist(processId)){
+                return processStorage.getProcessInfo(processId);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 根据流程id删除流程
+     * @param processId 流程id
+     * @return 删除结果
+     */
+    public boolean delete(String processId){
+        for (ProcessStorage processStorage : initializeProcessStorage.values()) {
+            if(processStorage.exist(processId)){
+                try {
+                    processStorage.delete(processId);
+                    return true;
+                } catch (Exception e) {
+                    log.error("Delete process {} failed", processId, e);
+                }
+            }
+        }
+        return false;
+    }
+
+
+
     /**
      * 根据配置的id获取 ProcessStorage
-     * @param id id
+     * @param id 流程存储者id
      * @return ProcessStorage
      */
     public ProcessStorage getProcessStorage(String id){
@@ -133,6 +169,7 @@ public class ProcessStorageFactory {
         }
         return initializeProcessStorage.get(id);
     }
+
 
 
 

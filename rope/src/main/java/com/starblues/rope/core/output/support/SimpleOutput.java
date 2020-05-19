@@ -65,7 +65,7 @@ public class SimpleOutput extends AbstractOutput {
 
     @Override
     public String name() {
-        return "simple";
+        return "简单输出";
     }
 
     @Override

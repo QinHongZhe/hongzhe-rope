@@ -75,6 +75,11 @@ public abstract class AbstractFileProcessStorage implements ProcessStorage, Chil
 
 
     @Override
+    public boolean exist(String processId) {
+        return getProcessInfo(processId) != null;
+    }
+
+    @Override
     public void delete(String processId) throws Exception {
         ProcessInfo processInfo = getProcessInfo(processId);
         if(processId == null){
