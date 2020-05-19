@@ -50,7 +50,7 @@ public class SetFixedField implements DateHandler {
 
     @Override
     public ConfigParameter configParameter() {
-        return null;
+        return param;
     }
 
     @Override
@@ -94,6 +94,7 @@ public class SetFixedField implements DateHandler {
             configParam.addField(
                     ListMapField.toBuilder(P_FIELDS, "字段设置", P_FIELD_KEY, P_FIELD_VALUE)
                             .description("自定义设置多个固定字段")
+                            .keyValueDescription("字段的key", "字段的值")
                             .required(false)
                             .build()
             );

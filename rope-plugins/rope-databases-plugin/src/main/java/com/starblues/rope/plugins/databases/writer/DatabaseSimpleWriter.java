@@ -313,7 +313,8 @@ public class DatabaseSimpleWriter extends AbstractWriter {
 
             configParam.addField(
                     ListMapField.toBuilder(P_FIELD_MAPPINGS, "字段映射", MAP_KEY, MAP_VALUE)
-                            .description("记录与表的字段映射。key为写入记录的key, value为表中字段的key")
+                            .description("记录与表的字段映射。")
+                            .keyValueDescription("写入记录的key", "表中字段的key")
                             .required(false)
                             .build()
             );

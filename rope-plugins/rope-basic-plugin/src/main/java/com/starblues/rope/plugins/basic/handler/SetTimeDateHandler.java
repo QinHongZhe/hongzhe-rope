@@ -65,7 +65,7 @@ public class SetTimeDateHandler implements DateHandler {
 
     @Override
     public String name() {
-        return ID;
+        return "设置指定格式的时间";
     }
 
     @Override
