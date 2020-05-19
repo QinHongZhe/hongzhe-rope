@@ -65,6 +65,16 @@ public class DefaultRecord implements Record{
     }
 
     @Override
+    public synchronized void removeColumn(String key) {
+        Column column = columns.get(key);
+        if(column == null){
+            return;
+        }
+        decrByteSize(column);
+        columns.remove(key);
+    }
+
+    @Override
     public Collection<Column> getColumns() {
         return Collections.unmodifiableCollection(columns.values());
     }

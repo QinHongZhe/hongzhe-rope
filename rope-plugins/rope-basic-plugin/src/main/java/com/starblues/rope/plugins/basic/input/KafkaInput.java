@@ -12,7 +12,7 @@ import com.starblues.rope.core.common.param.fields.NumberField;
 import com.starblues.rope.core.common.param.fields.TextField;
 import com.starblues.rope.core.converter.AbstractInputConverter;
 import com.starblues.rope.core.converter.ConverterFactory;
-import com.starblues.rope.core.input.reader.Consumer;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.input.support.accept.AbstractAcceptInput;
 import com.starblues.rope.core.input.support.accept.BaseAcceptInputConfigParameter;
 import com.starblues.rope.core.model.record.Column;

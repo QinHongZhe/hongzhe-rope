@@ -23,6 +23,11 @@ public class LastRecordSigner implements Record{
     }
 
     @Override
+    public void removeColumn(String key) {
+
+    }
+
+    @Override
     public Collection<Column> getColumns() {
         return Collections.emptyList();
     }

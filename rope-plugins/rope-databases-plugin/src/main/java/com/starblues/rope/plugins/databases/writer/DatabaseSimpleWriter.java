@@ -1,5 +1,9 @@
 package com.starblues.rope.plugins.databases.writer;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.starblues.rope.core.common.param.ConfigParam;
 import com.starblues.rope.core.common.param.ConfigParamInfo;
 import com.starblues.rope.core.common.param.fields.BooleanField;
@@ -12,12 +16,6 @@ import com.starblues.rope.core.output.writer.BaseWriterConfigParameter;
 import com.starblues.rope.plugins.databases.DatabaseWriterConfigParameter;
 import com.starblues.rope.plugins.databases.config.DatabasesConfig;
 import com.starblues.rope.plugins.databases.config.DatabasesConfigBean;
-import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.starblues.rope.utils.Converter;
 import com.starblues.rope.utils.IDUtils;
 import com.starblues.rope.utils.TextUtils;
 import lombok.Getter;
@@ -28,7 +26,6 @@ import org.jdbi.v3.core.statement.PreparedBatch;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -64,37 +61,17 @@ public class DatabaseSimpleWriter extends AbstractWriter {
     public void initialize(String processId) throws Exception {
         this.jdbi = databasesConfigBean.getJdbi(param.getDatabaseKey());
 
-        jdbi.useHandle(handle -> {
-            String tableExistSql = param.getTableExistSql();
-            String createTableSql = param.getCreateTableSql();
-            String result = null;
-            try {
-                result = handle.select(tableExistSql)
-                        .mapTo(String.class)
-                        .one();
-            }catch (Exception e) {
-                result = null;
-                log.warn("TableExistSql:{} is error Or table:{} not exist!",tableExistSql,param.getTableName());
-            }finally {
-                if(!Strings.isNullOrEmpty(result)){
-                    return;
-                }
-                try {
-                    // 创建表sql
-                    handle.execute(createTableSql);
-                }catch (Exception e) {
-                    log.warn("CreateTableSql:{} is error Or table:{} is exist!",createTableSql,param.getTableName());
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
         // 生成预sql
         List<String> filed = Lists.newArrayList();
         List<String> value = Lists.newArrayList();
         Map<String, String> fieldMappings = param.getFieldMappings();
         if(fieldMappings != null && !fieldMappings.isEmpty()){
+            if(!fieldMappings.containsKey(param.getId()) &&
+                    Objects.equals(param.getIdType(), Param.ID_TYPE_UUID)){
+                // 如果字段映射中不存在id, 并且id为UUID类型, 则将ID加入sql中
+                filed.add(param.getId());
+                value.add(":" + param.getId());
+            }
             fieldMappings
                     .forEach((mapping, tableFiled)->{
                         if(Objects.equals(tableFiled, param.getId())
@@ -156,38 +133,21 @@ public class DatabaseSimpleWriter extends AbstractWriter {
         Map<String, Object> recordMap  = record.toMap();
         Map<String, String> properties = param.getFieldMappings();
         Map<String, Object> bindMap = Maps.newHashMap();
+
+
+        // 映射字段
         properties.forEach((mappingFiled, tableFiled)->{
-            if(!recordMap.containsKey(mappingFiled)){
-                // 记录中不存在该表字段
-                bindMap.put(tableFiled, null);
-                return;
-            }
-            if(Objects.equals(tableFiled, param.getId())){
-                // 是id字段
-                String idType = param.getIdType();
-                if(StringUtils.isEmpty(idType)){
-                    bindMap.put(tableFiled, recordMap.get(mappingFiled));
-                    return;
-                }
-                switch (idType){
-                    case Param.ID_TYPE_UUID:
-                        bindMap.put(tableFiled, IDUtils.uuid());
-                        break;
-                    case Param.ID_TYPE_FOLLOW:
-                        bindMap.put(tableFiled, recordMap.get(mappingFiled));
-                    case Param.ID_TYPE_AUTO:
-                        // 自增字段类型的值不加入
-                        break;
-                    default:
-                        // 其他id字段类型。跟随
-                        bindMap.put(tableFiled, recordMap.get(mappingFiled));
-                        break;
-                }
-            } else {
-                // 非id字段
+            if(recordMap.containsKey(mappingFiled)){
                 bindMap.put(tableFiled, recordMap.get(mappingFiled));
             }
         });
+
+        // ID 处理
+        if(Objects.equals(param.getIdType(), Param.ID_TYPE_UUID)){
+            // 如果为uuid类型, 则自动新增uuid值
+            bindMap.put(param.getId(), IDUtils.uuid());
+        }
+
         return bindMap;
     }
 
@@ -243,14 +203,12 @@ public class DatabaseSimpleWriter extends AbstractWriter {
         public static final String MAP_VALUE = "value";
 
 
-        private static final String TABLE_NAME = "tableName";
-        private static final String ID = "id";
-        private static final String ID_TYPE = "idType";
-        private static final String CREATE_TABLE_SQL = "createTableSql";
-        private static final String CLEAN = "clean";
-        private static final String CLEAN_SQL = "cleanSql";
-        private static final String FIELD_MAPPINGS = "fieldMappings";
-        private static final String TABLE_EXIST_SQL = "tableExistSql";
+        private static final String P_TABLE_NAME = "tableName";
+        private static final String P_ID = "id";
+        private static final String P_ID_TYPE = "idType";
+        private static final String P_CLEAN = "clean";
+        private static final String P_CLEAN_SQL = "cleanSql";
+        private static final String P_FIELD_MAPPINGS = "fieldMappings";
 
 
         public static final String ID_TYPE_UUID = "uuid";
@@ -277,10 +235,6 @@ public class DatabaseSimpleWriter extends AbstractWriter {
          */
         private String idType;
 
-        /**
-         * 表不存在时, 使用创建表的Sql语句
-         */
-        private String createTableSql;
 
         /**
          * 写入数据前是否清除表中的数据
@@ -292,10 +246,6 @@ public class DatabaseSimpleWriter extends AbstractWriter {
          */
         private String cleanSql;
 
-        /**
-         * 检查表是否存在sql
-         */
-        private String tableExistSql;
 
         /**
          * 字段映射。key为写入记录的key, value为表中字段的key
@@ -314,24 +264,12 @@ public class DatabaseSimpleWriter extends AbstractWriter {
         protected void childParsing(ConfigParamInfo configParamInfo) {
             super.childParsing(configParamInfo);
 
-            this.tableName = configParamInfo.getString(TABLE_NAME);
-            this.id = configParamInfo.getString(ID);
-            this.idType = configParamInfo.getString(ID_TYPE);
-            this.createTableSql = configParamInfo.getString(CREATE_TABLE_SQL);
-            this.clean = configParamInfo.getBoolean(CLEAN);
-            this.cleanSql = configParamInfo.getString(CLEAN_SQL);
-            this.tableExistSql = configParamInfo.getString(TABLE_EXIST_SQL);
-            List<Map<String, Object>> listMap = configParamInfo.getListMap(FIELD_MAPPINGS);
-            fieldMappings = new HashMap<>();
-            if(listMap != null){
-                for (Map<String, Object> map : listMap) {
-                    Object k = map.get(MAP_KEY);
-                    Object v = map.get(MAP_VALUE);
-                    if(k != null && v != null){
-                        fieldMappings.put(Converter.getAsString(k), Converter.getAsString(v));
-                    }
-                }
-            }
+            this.tableName = configParamInfo.getString(P_TABLE_NAME);
+            this.id = configParamInfo.getString(P_ID);
+            this.idType = configParamInfo.getString(P_ID_TYPE);
+            this.clean = configParamInfo.getBoolean(P_CLEAN);
+            this.cleanSql = configParamInfo.getString(P_CLEAN_SQL);
+            fieldMappings = configParamInfo.mapping(P_FIELD_MAPPINGS, MAP_KEY, MAP_VALUE);
         }
 
         @Override
@@ -339,43 +277,27 @@ public class DatabaseSimpleWriter extends AbstractWriter {
             super.configParam(configParam);
 
             configParam.addField(
-                    TextField.toBuilder(TABLE_NAME, "数据库表名", "")
+                    TextField.toBuilder(P_TABLE_NAME, "数据库表名", "")
                             .required(true)
                             .description("数据库表名")
                             .build()
             );
 
             configParam.addField(
-                    TextField.toBuilder(ID, "id字段", "")
+                    TextField.toBuilder(P_ID, "id字段", "")
                             .required(true)
                             .description("表中id字段名称")
                             .build()
             );
             configParam.addField(
-                    DropdownField.toBuilder(ID_TYPE, "id类型", ID_TYPE_UUID, ID_TYPE_OPTIONS)
+                    DropdownField.toBuilder(P_ID_TYPE, "id类型", ID_TYPE_UUID, ID_TYPE_OPTIONS)
                             .required(true)
                             .description("写入表的id字段的类型")
                             .build()
             );
 
             configParam.addField(
-                    TextField.toBuilder(TABLE_EXIST_SQL, "表存在sql", "")
-                            .required(true)
-                            .description("用于判断表是否存在的sql")
-                            .build()
-            );
-
-            configParam.addField(
-                    TextField.toBuilder(CREATE_TABLE_SQL, "创建表sql", "")
-                            .attribute(TextField.Attribute.TEXTAREA)
-                            .required(true)
-                            .description("如果表不存在时, 则使用该处定义的Sql创建表")
-                            .build()
-            );
-
-
-            configParam.addField(
-                    BooleanField.toBuilder(CLEAN, "是否清除数据", false)
+                    BooleanField.toBuilder(P_CLEAN, "是否清除数据", false)
                             .description("在写入数据前, 是否清除数据")
                             .required(true)
                             .build()
@@ -383,14 +305,14 @@ public class DatabaseSimpleWriter extends AbstractWriter {
 
 
             configParam.addField(
-                    TextField.toBuilder(CLEAN_SQL, "清除数据Sql", "")
+                    TextField.toBuilder(P_CLEAN_SQL, "清除数据Sql", "")
                             .description("如果清除数据, 则使用该处清除数据的Sql")
                             .required(false)
                             .build()
             );
 
             configParam.addField(
-                    ListMapField.toBuilder(FIELD_MAPPINGS, "字段映射", MAP_KEY, MAP_VALUE)
+                    ListMapField.toBuilder(P_FIELD_MAPPINGS, "字段映射", MAP_KEY, MAP_VALUE)
                             .description("记录与表的字段映射。key为写入记录的key, value为表中字段的key")
                             .required(false)
                             .build()

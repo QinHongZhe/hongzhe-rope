@@ -1,7 +1,7 @@
 package com.starblues.rope.core.input.support.accept;
 
 import com.starblues.rope.core.input.AbstractInput;
-import com.starblues.rope.core.input.reader.Consumer;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
 import org.springframework.util.StringUtils;
 
 /**

@@ -6,7 +6,7 @@ import com.starblues.rope.core.common.param.ConfigParamInfo;
 import com.starblues.rope.core.common.param.fields.BooleanField;
 import com.starblues.rope.core.common.param.fields.NumberField;
 import com.starblues.rope.core.converter.ConverterFactory;
-import com.starblues.rope.core.input.reader.Consumer;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.model.record.Column;
 import com.starblues.rope.core.model.record.DefaultRecord;
 import com.starblues.rope.core.model.record.Record;

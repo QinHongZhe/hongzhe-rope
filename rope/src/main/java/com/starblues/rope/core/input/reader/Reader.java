@@ -1,6 +1,7 @@
 package com.starblues.rope.core.input.reader;
 
 import com.starblues.rope.core.common.Identity;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
 
 /**
  * 读取数据者

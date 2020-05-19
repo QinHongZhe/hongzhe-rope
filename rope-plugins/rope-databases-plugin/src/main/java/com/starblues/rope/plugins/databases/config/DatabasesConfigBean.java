@@ -61,7 +61,7 @@ public class DatabasesConfigBean implements ConfigBean {
      * @param key  databaseKey
      */
     public void destroy(String key){
-        ParamUtils.check("DatabaseKey", key);
+        ParamUtils.check("databaseKey", key);
         jdbiFactory.removeJdbc(key);
     }
 
@@ -71,7 +71,7 @@ public class DatabasesConfigBean implements ConfigBean {
      * @return Jdbi
      */
     public Jdbi getJdbi(String key){
-        ParamUtils.check("DatabaseKey", key);
+        ParamUtils.check("databaseKey", key);
         Jdbi jdbc = jdbiFactory.getJdbi(key);
         if(jdbc == null){
             throw new RuntimeException("Not found database key : " + key);

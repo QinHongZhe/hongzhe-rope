@@ -2,10 +2,10 @@ package com.starblues.rope.core.input;
 
 import com.starblues.rope.core.common.State;
 import com.starblues.rope.core.common.StateControl;
-import com.starblues.rope.core.input.reader.AbstractStateConsumer;
-import com.starblues.rope.core.input.reader.Consumer;
-import com.starblues.rope.core.input.reader.DoNotStateConsumer;
-import com.starblues.rope.core.input.reader.TransportConsumer;
+import com.starblues.rope.core.input.reader.consumer.AbstractStateConsumer;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
+import com.starblues.rope.core.input.reader.consumer.DoNotStateConsumer;
+import com.starblues.rope.core.input.reader.consumer.TransportConsumer;
 import com.starblues.rope.core.transport.Transport;
 import org.springframework.util.StringUtils;
 

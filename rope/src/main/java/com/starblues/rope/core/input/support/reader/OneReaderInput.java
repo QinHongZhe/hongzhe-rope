@@ -3,7 +3,7 @@ package com.starblues.rope.core.input.support.reader;
 import com.starblues.rope.core.common.State;
 import com.starblues.rope.core.common.param.ConfigParameter;
 import com.starblues.rope.core.input.AbstractReaderInput;
-import com.starblues.rope.core.input.reader.Consumer;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.model.record.LastRecordSigner;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;

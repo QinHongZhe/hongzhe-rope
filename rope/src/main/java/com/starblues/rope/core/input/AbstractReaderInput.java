@@ -1,7 +1,7 @@
 package com.starblues.rope.core.input;
 
 import com.starblues.rope.core.common.State;
-import com.starblues.rope.core.input.reader.Consumer;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.input.reader.DoNotOperateReader;
 import com.starblues.rope.core.input.reader.Reader;
 

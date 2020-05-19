@@ -115,9 +115,14 @@ public class Column {
     }
 
     public void setMetadata(Object metadata) {
+        setMetadata(metadata, false);
+    }
+
+    public void setMetadata(Object metadata, boolean reCalculateSize) {
         this.metadata = metadata;
         if(metadata != null){
-            if(this.byteSize == 0L){
+            // 如果字节大小为0, 或者重新计算大小标志为true, 则自动计算
+            if(reCalculateSize || this.byteSize == 0L){
                 this.byteSize = RamUsageEstimator.sizeOfObject(metadata);
             }
             if(this.type == null || this.type == Type.NULL){

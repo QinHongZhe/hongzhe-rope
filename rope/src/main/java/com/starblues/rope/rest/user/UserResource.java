@@ -30,7 +30,20 @@ public class UserResource extends BaseResource {
     }
 
 
-
+    @PutMapping("password")
+    public Result<String> updatePassword(@RequestParam("oldPassword") String oldPassword,
+                                         @RequestParam("newPassword") String newPassword) {
+        try {
+            boolean result = userService.updatePassword(oldPassword, newPassword);
+            if(result){
+                return responseBody(Result.ResponseEnum.OPERATE_SUCCESS, "修改密码成功");
+            } else {
+                return responseBody(Result.ResponseEnum.OPERATE_ERROR, "修改密码失败");
+            }
+        } catch (Exception e) {
+            return responseBody(Result.ResponseEnum.OPERATE_ERROR, "修改密码失败. " + e.getMessage());
+        }
+    }
 
 
 }

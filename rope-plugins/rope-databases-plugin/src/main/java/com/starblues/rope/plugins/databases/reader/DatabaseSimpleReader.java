@@ -3,7 +3,7 @@ package com.starblues.rope.plugins.databases.reader;
 import com.starblues.rope.core.common.param.ConfigParam;
 import com.starblues.rope.core.common.param.ConfigParamInfo;
 import com.starblues.rope.core.common.param.fields.TextField;
-import com.starblues.rope.core.input.reader.Consumer;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.input.reader.Reader;
 import com.starblues.rope.core.model.record.Column;
 import com.starblues.rope.core.model.record.DefaultRecord;

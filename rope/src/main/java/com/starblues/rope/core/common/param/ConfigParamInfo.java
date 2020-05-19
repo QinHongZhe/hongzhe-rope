@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.starblues.rope.utils.Converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -160,6 +161,28 @@ public class ConfigParamInfo implements Serializable {
 
     public List<Map<String, Object>> getListMap(String key, List<Map<String, Object>> defaultValue) {
         return firstNonNull(listMaps.get(key), defaultValue);
+    }
+
+    /**
+     * 字段映射
+     * @param fieldKey 获取List<Map> 的key
+     * @param mappingKey 映射字段的key
+     * @param mappingValue 映射字段的值
+     * @return 映射结果
+     */
+    public Map<String, String> mapping(String fieldKey, String mappingKey, String mappingValue){
+        List<Map<String, Object>> listMap = getListMap(fieldKey);
+        Map<String, String> fieldMappings = Maps.newHashMap();
+        if(listMap != null){
+            for (Map<String, Object> map : listMap) {
+                Object k = map.get(mappingKey);
+                Object v = map.get(mappingValue);
+                if(k != null && v != null){
+                    fieldMappings.put(Converter.getAsString(k), Converter.getAsString(v));
+                }
+            }
+        }
+        return fieldMappings;
     }
 
 

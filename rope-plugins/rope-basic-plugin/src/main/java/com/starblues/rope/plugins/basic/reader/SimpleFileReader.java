@@ -7,7 +7,7 @@ import com.starblues.rope.core.common.param.fields.TextField;
 import com.starblues.rope.core.converter.AbstractInputConverter;
 import com.starblues.rope.core.converter.ConverterFactory;
 import com.starblues.rope.core.input.reader.BaseReaderConfigParameter;
-import com.starblues.rope.core.input.reader.Consumer;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.input.reader.Reader;
 import com.starblues.rope.core.model.record.Column;
 import com.starblues.rope.core.model.record.DefaultRecord;

@@ -1,7 +1,7 @@
 package com.starblues.rope.plugins.basic.input.netty;
 
 import com.starblues.rope.core.converter.ConverterFactory;
-import com.starblues.rope.core.input.reader.Consumer;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.input.support.accept.AbstractAcceptConverterInput;
 import com.starblues.rope.core.input.support.accept.BaseAcceptInputConfigParameter;
 import com.starblues.rope.core.model.record.Column;

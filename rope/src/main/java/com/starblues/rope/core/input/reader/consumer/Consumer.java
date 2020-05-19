@@ -1,4 +1,4 @@
-package com.starblues.rope.core.input.reader;
+package com.starblues.rope.core.input.reader.consumer;
 
 import com.starblues.rope.core.model.record.Record;
 import com.starblues.rope.core.model.record.RecordGroup;

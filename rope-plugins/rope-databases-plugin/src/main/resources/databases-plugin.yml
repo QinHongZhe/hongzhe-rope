@@ -1,7 +1,8 @@
 databases:
   - key: mysql-config1
     name: 本机mysql数据库配置
-    jarPath: D:\code-workspace\java\aiops-git\aiops-collector\aiops-data-transfer\plugins\databases-plugin\jdbc-jar\mysql.jar
+    ## 修改到本机驱动包位置, 必须为绝对路径
+    jarPath: D://**//jdbc-jar//mysql.jar
     config:
       url: jdbc:mysql://127.0.0.1:3306/test?rewriteBatchedStatements=true&useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC
       username: root
