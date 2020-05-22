@@ -27,6 +27,15 @@ public interface UserService {
      */
     boolean save(User user);
 
+    /**
+     * 修改密码
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return 成功true. 失败false
+     * @throws Exception 修改密码异常
+     */
+    boolean updatePassword(String oldPassword, String newPassword) throws Exception;
+
 
     /**
      * 得到密码匹配者
@@ -41,6 +50,7 @@ public interface UserService {
      * @return User
      */
     User getAuthUser();
+
 
     /**
      * 返回前端的用户信息
