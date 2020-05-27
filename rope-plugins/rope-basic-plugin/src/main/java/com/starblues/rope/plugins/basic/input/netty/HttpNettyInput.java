@@ -216,9 +216,9 @@ public class HttpNettyInput extends AbstractTcpInput<String>{
     @ToString
     private static class Config extends AbstractTcpInput.TcpConfig{
 
-        private final static String ENABLE_CORS = "enable_cors";
-        private final static String MAX_CHUNK_SIZE = "max_chunk_size";
-        private final static String IDLE_WRITE_TIMEOUT = "idle_write_timeout";
+        private final static String ENABLE_CORS = "enableCors";
+        private final static String MAX_CHUNK_SIZE = "maxChunkSize";
+        private final static String IDLE_WRITE_TIMEOUT = "idleWriteTimeout";
         private final static String PATH = "path";
 
         private boolean enableCros;

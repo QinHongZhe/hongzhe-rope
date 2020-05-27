@@ -211,19 +211,19 @@ public class KafkaInput extends AbstractAcceptInput {
         public static final String MAP_VALUE = "value";
 
         private static final String TOPICS = "topics";
-        private static final String CONSUME_TIMEOUT = "consume_timeout";
+        private static final String CONSUME_TIMEOUT = "consumeTimeout";
 
         private static final Integer DEFAULT_CONSUME_TIMEOUT = 1000;
         private static final String THREADS = "threads";
 
         private static final String CK_SERVERS = "servers";
-        private static final String CK_GROUP_ID = "group_id";
-        private static final String CK_FETCH_MIN_BYTES = "fetch_min_bytes";
-        private static final String CK_FETCH_MAX_WAIT_MS = "fetch_max_wait_ms";
+        private static final String CK_GROUP_ID = "groupId";
+        private static final String CK_FETCH_MIN_BYTES = "fetchMinBytes";
+        private static final String CK_FETCH_MAX_WAIT_MS = "fetchMaxWaitMs";
 
-        private static final String SSL_ALLOWED = "ssl_allowed";
-        private static final String CK_SSL_LOCATION = "ssl_truststore_location";
-        private static final String CK_SSL_PASSWORD = "ssl_truststore_password";
+        private static final String SSL_ALLOWED = "sslAllowed";
+        private static final String CK_SSL_LOCATION = "sslTruststoreLocation";
+        private static final String CK_SSL_PASSWORD = "sslTruststorePassword";
 
 
         private Set<String> topics;

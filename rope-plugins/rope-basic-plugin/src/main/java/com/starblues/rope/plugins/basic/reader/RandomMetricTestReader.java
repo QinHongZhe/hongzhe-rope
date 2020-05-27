@@ -97,9 +97,9 @@ public class RandomMetricTestReader implements Reader {
 
         private static final String KEY = "key";
         private static final String VALUE = "value";
-        private static final String LOOP_NUMBER = "loop_number";
-        private static final String ROW_COUNT = "row_count";
-        private static final String DELAYED_MS = "delayed_ms";
+        private static final String LOOP_NUMBER = "loopNumber";
+        private static final String ROW_COUNT = "rowCount";
+        private static final String DELAYED_MS = "delayedMs";
 
 
         /**

@@ -231,8 +231,8 @@ public class TcpNettyWriter extends AbstractConverterWriter<String> {
         private final static String HOSTNAME = "hostname";
         private final static String PORT = "port";
 
-        private final static String QUEUE_SIZE = "queue_size";
-        private final static String RETRY_TIME = "retry_time";
+        private final static String QUEUE_SIZE = "queueSize";
+        private final static String RETRY_TIME = "retryTime";
         private final static String TIMEOUT = "timeout";
 
         private String hostname;

@@ -117,8 +117,8 @@ public class TcpNettyInput extends AbstractTcpInput<String>{
     @ToString
     private static class Config extends AbstractTcpInput.TcpConfig{
 
-        public static final String USE_NULL_DELIMITER = "use_null_delimiter";
-        private static final String MAX_MESSAGE_SIZE = "max_message_size";
+        public static final String USE_NULL_DELIMITER = "useNullDelimiter";
+        private static final String MAX_MESSAGE_SIZE = "maxMessageSize";
 
         private boolean nullDelimiter = false;
         private int maxMessageSize;
