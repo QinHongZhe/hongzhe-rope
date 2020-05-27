@@ -20,7 +20,7 @@ import java.util.Map;
  * @since 2020-05-19
  */
 @Component
-public class SetFixedField implements DateHandler {
+public class SetFixedFieldHandler implements DateHandler {
 
     private final static String ID = "set-fixed-field";
 

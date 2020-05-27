@@ -114,6 +114,23 @@ public class Column {
         return metadata;
     }
 
+    /**
+     * 根据类型获取数据
+     * @param metadataClass 源数据类型
+     * @param <T> 元数据类型的泛型
+     * @return 元数据类型
+     */
+    public <T> T getMetadata(Class<T> metadataClass) {
+        if(metadata == null){
+            return null;
+        }
+        if(metadata.getClass() == metadataClass){
+            return (T) metadata;
+        } else {
+            return null;
+        }
+    }
+
     public void setMetadata(Object metadata) {
         setMetadata(metadata, false);
     }

@@ -139,6 +139,8 @@ public class DatabaseSimpleWriter extends AbstractWriter {
         properties.forEach((mappingFiled, tableFiled)->{
             if(recordMap.containsKey(mappingFiled)){
                 bindMap.put(tableFiled, recordMap.get(mappingFiled));
+            } else {
+                bindMap.put(tableFiled, "");
             }
         });
 
