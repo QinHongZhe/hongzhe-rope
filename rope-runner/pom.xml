@@ -6,9 +6,13 @@
     
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.gitee.starblues</groupId>
+    <parent>
+        <groupId>com.gitee.starblues</groupId>
+        <artifactId>rope-parent</artifactId>
+        <version>1.0.2.RELEASE</version>
+    </parent>
+
     <artifactId>rope-runner</artifactId>
-    <version>1.0.2.RELEASE</version>
     <packaging>pom</packaging>
 
     <properties>

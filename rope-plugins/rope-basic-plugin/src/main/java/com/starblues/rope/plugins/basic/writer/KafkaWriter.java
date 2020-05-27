@@ -11,15 +11,16 @@ import com.starblues.rope.core.output.writer.AbstractConverterWriter;
 import com.starblues.rope.core.output.writer.BaseWriterConfigParameter;
 import com.starblues.rope.utils.ParamUtils;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import static org.apache.kafka.clients.producer.ProducerConfig.*;
 
 import java.util.List;
 import java.util.Map;
+
+import static org.apache.kafka.clients.producer.ProducerConfig.*;
 
 /**
  * kafka 写入者
@@ -28,8 +29,9 @@ import java.util.Map;
  * @version 1.0
  */
 @Component
-@Slf4j
 public class KafkaWriter extends AbstractConverterWriter<String> {
+
+    private final static Logger log = LoggerFactory.getLogger(KafkaWriter.class);
 
     private final static String ID = "kafka_2.12";
     private final Gson gson;
@@ -138,9 +140,9 @@ public class KafkaWriter extends AbstractConverterWriter<String> {
 
             configParam.addField(
                     TextField.toBuilder(CK_SERVERS, "代理服务器", "localhost:9092")
-                    .required(true)
-                    .description("用于建立与Kafka集群的初始连接的列表主机/端口")
-                    .build()
+                            .required(true)
+                            .description("用于建立与Kafka集群的初始连接的列表主机/端口")
+                            .build()
             );
 
             configParam.addField(

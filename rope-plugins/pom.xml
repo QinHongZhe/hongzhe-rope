@@ -9,7 +9,6 @@
         <groupId>com.gitee.starblues</groupId>
         <artifactId>rope-parent</artifactId>
         <version>1.0.2.RELEASE</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>rope-plugins</artifactId>

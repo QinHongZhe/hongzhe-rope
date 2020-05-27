@@ -49,6 +49,7 @@
                     page: false,
                     align: 'center',
                     menuAlign: 'center',
+                    menu: false,
                     addBtn: false,
                     columnBtn: false,
                     delBtn: false,

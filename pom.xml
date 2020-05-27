@@ -10,6 +10,16 @@
     <packaging>pom</packaging>
     <version>1.0.2.RELEASE</version>
 
+    <properties>
+        <!-- 是否跳过构建前端, 默认不跳过 -->
+        <buildWebSkip>false</buildWebSkip>
+
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+    </properties>
+
     <modules>
         <module>rope</module>
         <module>rope-common</module>
@@ -18,5 +28,20 @@
         <module>rope-runner</module>
     </modules>
 
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

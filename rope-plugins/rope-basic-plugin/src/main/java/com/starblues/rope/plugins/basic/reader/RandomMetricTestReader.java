@@ -84,7 +84,7 @@ public class RandomMetricTestReader implements Reader {
 
     @Override
     public String name() {
-        return ID;
+        return "随机性能测试";
     }
 
     @Override

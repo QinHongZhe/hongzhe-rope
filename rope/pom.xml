@@ -6,20 +6,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.10.RELEASE</version>
-        <relativePath/>
+        <groupId>com.gitee.starblues</groupId>
+        <artifactId>rope-parent</artifactId>
+        <version>1.0.2.RELEASE</version>
     </parent>
 
-    <groupId>com.gitee.starblues</groupId>
     <artifactId>rope</artifactId>
-    <version>1.0.2.RELEASE</version>
     <packaging>jar</packaging>
+
     <description>主程序</description>
 
 
     <properties>
+        <spring-boot.version>2.1.10.RELEASE</spring-boot.version>
+
+
         <springboot-plugin-framework.version>2.2.2-RELEASE</springboot-plugin-framework.version>
         <guava.version>28.1-jre</guava.version>
         <gson.version>2.8.6</gson.version>
@@ -44,12 +45,11 @@
         <lombok.version>1.18.10</lombok.version>
 
 
-        <!-- 编译插件相关的配置 -->
-
         <!-- 是否跳过前端编译 -->
-        <web-build.skip>false</web-build.skip>
+        <web-build.skip>${buildWebSkip}</web-build.skip>
         <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
         <maven-resources-plugin.version>2.5</maven-resources-plugin.version>
+
         <!-- 前端文件目录 -->
         <webInterface.path>rope-web</webInterface.path>
         <!-- 前端文件编译后的目录 -->
@@ -57,6 +57,18 @@
         <!-- 前端文件打包进jar包后的目录 -->
         <webInterface.target.path>rope-web</webInterface.target.path>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
 
@@ -230,6 +242,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>clean-web-dist</id>
+                        <phase>initialize</phase>
+                    </execution>
+                </executions>
                 <configuration>
                     <filesets>
                         <fileset>
@@ -241,7 +259,7 @@
                         </fileset>
                     </filesets>
                     <skip>${web-build.skip}</skip>
-                    <failOnError>true</failOnError>
+                    <failOnError>false</failOnError>
                 </configuration>
             </plugin>
 
@@ -316,6 +334,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
                 <executions>
                     <execution>
                         <id>repackage</id>

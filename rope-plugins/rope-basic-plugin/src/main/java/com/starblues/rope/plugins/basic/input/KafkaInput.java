@@ -20,13 +20,14 @@ import com.starblues.rope.core.model.record.DefaultRecord;
 import com.starblues.rope.core.model.record.Record;
 import com.starblues.rope.utils.ExceptionMsgUtils;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.config.SslConfigs;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -35,9 +36,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 
 import static com.starblues.rope.utils.ParamUtils.check;
 import static org.apache.kafka.clients.consumer.ConsumerConfig.*;
@@ -51,8 +53,9 @@ import static org.apache.kafka.clients.producer.ProducerConfig.BOOTSTRAP_SERVERS
  * @version 1.0
  */
 @Component
-@Slf4j
 public class KafkaInput extends AbstractAcceptInput {
+
+    private final static Logger log = LoggerFactory.getLogger(KafkaInput.class);
 
     private final static String ID = "kafka_2.12";
 
@@ -143,7 +146,7 @@ public class KafkaInput extends AbstractAcceptInput {
         private final AbstractInputConverter inputConverter;
 
         ConsumerRunner(int num, Consumer consumer,
-                              AbstractInputConverter inputConverter){
+                       AbstractInputConverter inputConverter){
             Map<String,Object> props = Maps.newHashMap();
             props.putAll(param.getProps());
             props.put("client.id", processId() + "-kafka-accept-input-" + num);
@@ -350,10 +353,10 @@ public class KafkaInput extends AbstractAcceptInput {
 
             configParam.addField(
                     BooleanField.toBuilder(SSL_ALLOWED, "ssl通信", false)
-                        .required(false)
-                        .description("是否允许与kafka代理进行ssl通信, " +
-                                "如果启用，与代理的通信将在SSL中完成。请检查kafka代理配置ssl端口")
-                        .build()
+                            .required(false)
+                            .description("是否允许与kafka代理进行ssl通信, " +
+                                    "如果启用，与代理的通信将在SSL中完成。请检查kafka代理配置ssl端口")
+                            .build()
             );
 
 

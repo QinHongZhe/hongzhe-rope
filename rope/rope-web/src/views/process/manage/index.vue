@@ -76,7 +76,7 @@
                     return false;
                 }
             },
-            beforeOpen(done, type){
+            beforeOpen(done){
                 done();
             },
             refresh(){
