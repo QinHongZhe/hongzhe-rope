@@ -10,11 +10,11 @@ import com.starblues.rope.core.model.record.Record;
 import com.starblues.rope.core.output.writer.AbstractConverterWriter;
 import com.starblues.rope.core.output.writer.BaseWriterConfigParameter;
 import com.starblues.rope.utils.ParamUtils;
+import com.starblues.rope.utils.PluginLogger;
 import lombok.Getter;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -31,7 +31,7 @@ import static org.apache.kafka.clients.producer.ProducerConfig.*;
 @Component
 public class KafkaWriter extends AbstractConverterWriter<String> {
 
-    private final static Logger log = LoggerFactory.getLogger(KafkaWriter.class);
+    private Logger log;
 
     private final static String ID = "kafka_2.12";
     private final Gson gson;
@@ -54,6 +54,7 @@ public class KafkaWriter extends AbstractConverterWriter<String> {
 
     @Override
     public void initialize(String processId) throws Exception {
+        log = PluginLogger.getLogger(this, processId);
         this.producer = new KafkaProducer<String, String>(param.getProps());
     }
 

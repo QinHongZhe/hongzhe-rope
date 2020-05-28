@@ -137,17 +137,17 @@ public class TcpNettyWriter extends AbstractConverterWriter<String> {
 
     @Override
     public String id() {
-        return null;
+        return ID;
     }
 
     @Override
     public String name() {
-        return null;
+        return "tcp客户端";
     }
 
     @Override
     public String describe() {
-        return null;
+        return "tcp客户端写入者";
     }
 
     @Slf4j

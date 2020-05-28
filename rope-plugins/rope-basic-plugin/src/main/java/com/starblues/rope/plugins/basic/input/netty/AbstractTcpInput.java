@@ -51,7 +51,7 @@ public abstract class AbstractTcpInput<Source> extends AbstractAcceptConverterIn
 
     protected final TcpConfig tcpConfig;
 
-    private Logger log;
+    protected Logger log;
 
     private InetSocketAddress socketAddress;
 

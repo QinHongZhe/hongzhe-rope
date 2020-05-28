@@ -9,8 +9,6 @@ import com.starblues.rope.core.output.writer.AbstractConverterWriter;
 import com.starblues.rope.core.output.writer.BaseWriterConfigParameter;
 import com.starblues.rope.plugins.basic.utils.FileUtils;
 import lombok.Getter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedWriter;
@@ -28,8 +26,6 @@ import java.util.List;
  */
 @Component
 public class SimpleFileWriter extends AbstractConverterWriter<String> {
-
-    private final static Logger log = LoggerFactory.getLogger(SimpleFileWriter.class);
 
     public static final String ID = "simple-file";
 
