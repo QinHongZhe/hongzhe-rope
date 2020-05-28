@@ -80,7 +80,7 @@ public abstract class AbstractOutputCache implements OutputCache {
         Lock writeLock = readWriteLock.writeLock();
         writeLock.lock();
         try {
-            List<Object> cacheData = getAll();
+            List<Object> cacheData = getAllData();
             cleanData();
             flush();
             return cacheData;

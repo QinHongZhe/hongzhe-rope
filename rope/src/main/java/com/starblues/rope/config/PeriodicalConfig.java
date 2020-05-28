@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
- * description
+ * 周期性任务的配置文件
  *
  * @author zhangzhuo
  * @version 1.0
@@ -24,12 +24,12 @@ import java.util.concurrent.ScheduledExecutorService;
 @Slf4j
 public class PeriodicalConfig {
 
-    private static final int SCHEDULED_THREADS_POOL_SIZE = 30;
+    private static final int SCHEDULED_THREADS_POOL_SIZE = 1;
 
-    @Value("${periodicalPoll:30}")
+    @Value("${periodicalPoll:1}")
     public Integer periodicalPoll;
 
-    @Value("${periodicalPoll:30}")
+    @Value("${periodicalDaemonPoll:1}")
     public Integer periodicalDaemonPoll;
 
     @Bean("periodicalExecutor")
@@ -41,7 +41,7 @@ public class PeriodicalConfig {
 
         return Executors.newScheduledThreadPool(periodicalPoll,
                 new ThreadFactoryBuilder()
-                        .setNameFormat("scheduled-%d")
+                        .setNameFormat("PeriodicalScheduler-%d")
                         .setDaemon(false)
                         .setUncaughtExceptionHandler(new LogUncaughtExceptionHandler(log))
                         .build()
@@ -57,7 +57,7 @@ public class PeriodicalConfig {
 
         return Executors.newScheduledThreadPool(periodicalDaemonPoll,
                 new ThreadFactoryBuilder()
-                        .setNameFormat("scheduled-daemon-%d")
+                        .setNameFormat("PeriodicalDaemonScheduler-%d")
                         .setDaemon(true)
                         .setUncaughtExceptionHandler(new LogUncaughtExceptionHandler(log))
                         .build()

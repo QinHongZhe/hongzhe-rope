@@ -5,6 +5,7 @@ import com.starblues.rope.core.input.support.reader.QuartzReaderInput;
 import com.starblues.rope.core.transport.Transport;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.springframework.util.StringUtils;
 
@@ -13,6 +14,8 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Quartz 输入的管理者
@@ -27,14 +30,15 @@ public class QuartzInputManager extends AbstractManager<QuartzReaderInput> {
     private String jobGroup = "QuartzInputJobGroup";
 
     private final Transport transport;
-    private final Scheduler scheduler;
+    private final Properties quartzProp;
 
+    private volatile Scheduler scheduler;
+    private AtomicInteger count = new AtomicInteger(0);
 
     public QuartzInputManager(Transport transport,
-                              SchedulerFactory schedulerFactory) throws SchedulerException {
+                              Properties quartzProp) {
         this.transport = Objects.requireNonNull(transport, "transport can't be null");
-        Objects.requireNonNull(schedulerFactory, "schedulerFactory can't be null");
-        this.scheduler = schedulerFactory.getScheduler();
+        this.quartzProp = quartzProp;
     }
 
     /**
@@ -73,7 +77,8 @@ public class QuartzInputManager extends AbstractManager<QuartzReaderInput> {
     }
 
     @Override
-    protected void toStart(QuartzReaderInput managed) throws Exception {
+    protected synchronized void toStart(QuartzReaderInput managed) throws Exception {
+        checkAndInitialize();
         QuartzReaderInput.Param param = managed.configParameter();
         JobDetail jobDetail = configJobDetail(param, managed.getJobClass(), managed.jobData());
         Trigger trigger = configTrigger(param);
@@ -82,15 +87,27 @@ public class QuartzInputManager extends AbstractManager<QuartzReaderInput> {
         }
         managed.start(transport);
         scheduler.scheduleJob(jobDetail, trigger);
-        synchronized (scheduler) {
-            if (!scheduler.isStarted()) {
-                scheduler.start();
+        count.incrementAndGet();
+    }
+
+    private void checkAndInitialize() throws SchedulerException {
+        if(scheduler == null){
+            SchedulerFactory stdSchedulerFactory = null;
+
+            if(quartzProp != null && !quartzProp.isEmpty()){
+                stdSchedulerFactory = new StdSchedulerFactory(quartzProp);
+            } else {
+                stdSchedulerFactory = new StdSchedulerFactory();
             }
+            scheduler = stdSchedulerFactory.getScheduler();
+        }
+        if(scheduler.isShutdown()){
+            scheduler.start();
         }
     }
 
     @Override
-    protected void toStop(QuartzReaderInput managed) throws Exception {
+    protected synchronized void toStop(QuartzReaderInput managed) throws Exception {
         QuartzReaderInput.Param param = managed.configParameter();
 
         String jobName = param.getJobName();
@@ -104,7 +121,14 @@ public class QuartzInputManager extends AbstractManager<QuartzReaderInput> {
         scheduler.unscheduleJob(TriggerKey.triggerKey(triggerName, triggerGroup));
         // 删除任务
         scheduler.deleteJob(JobKey.jobKey(jobName, jobGroup));
+
+        if(count.decrementAndGet() == 0){
+            if(scheduler.isStarted()){
+                scheduler.shutdown();
+            }
+        }
     }
+
 
 
     /**

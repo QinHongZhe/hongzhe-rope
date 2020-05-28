@@ -97,26 +97,26 @@ public abstract class AbstractBufferTransport extends AbstractTransport {
         private static final String CONSUME_POOL_SIZE = "consumePoolSize";
 
         /**
-         * 输入的缓冲大小，必须为2的n次方
+         * 输入的缓冲大小，必须为2的n次方。默认：1024
          */
-        private Integer bufferSize;
+        private Integer bufferSize = 1024;
 
         /**
-         * 输入的缓冲消费者等待策略, 可选: sleeping, yielding, blocking, busy_spinning
+         * 输入的缓冲消费者等待策略, 可选: sleeping, yielding, blocking, busy_spinning。默认：blocking
          */
-        private String waitStrategy;
+        private String waitStrategy = "blocking";
 
         /**
-         * 缓冲消费池的消费者数量
+         * 缓冲消费池的消费者数量。默认：1
          */
-        private Integer consumePoolSize;
+        private Integer consumePoolSize = 1;
 
 
         @Override
         public void parsing(ConfigParamInfo configParamInfo) throws Exception {
             bufferSize = configParamInfo.getInt(BUFFER_SIZE);
             if(bufferSize == null){
-                throw new Exception("AbstractBufferTransport 的 " + BUFFER_SIZE + " 参数为空");
+                throw new Exception("AbstractBufferTransport param : " + BUFFER_SIZE + " is null");
             }
             waitStrategy = configParamInfo.getString(WAIT_STRATEGY);
             if (StringUtils.isEmpty(waitStrategy)) {

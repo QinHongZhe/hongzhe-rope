@@ -31,10 +31,25 @@ rope-core:
   name: 开发环境测试
   # 输入管理器的配置
   inputManager:
+    # 一次性输入的的配置
+    oneInput:
+      # 一次性输入的的线程数。默认：2。根据配置的一次性输入数量决定, 推荐：一次性输入数量+1
+      threadNumber: 2
     # 周期性获取数据的配置。基于 java 的调度器实现
     periodAcquire:
       # 核心线程池的数量。>=0
       corePoolSize: 0
+    # quartz 的配置。具体信息可百度
+    quartzProp:
+      org.quartz.scheduler.instanceName: QuartzScheduler
+      org.quartz.scheduler.instanceId: Rope
+      org.quartz.scheduler.threadName: QuartzSchedulerThread
+      org.quartz.threadPool.class: org.quartz.simpl.SimpleThreadPool
+      # quartz 调度者线程数. 根据任务数设置
+      org.quartz.threadPool.threadCount: 5
+      # 线程优先级
+      org.quartz.threadPool.threadPriority: 5
+
   # 输出管理器的配置
   outputManager:
     # 周期性输出的配置
@@ -43,30 +58,33 @@ rope-core:
       corePoolSize: 0
   # 输出线程池的配置。
   outputPoll:
-    # 核心线程数. 可根据写入者数量和写入速度均衡调整合适大小。默认 100
+    # 核心线程数. 可根据写入者数量和写入速度均衡调整合适大小。默认 10
     # 该处配置很重要，影响到系统写入并发和系统写入速度。直接影响性能。
-    corePoolSize: 100
-    # 最大线程数.默认: 1024。最大<=2147483647
-    maximumPoolSize: 1024
-    # 线程存活时间。单位：毫秒.默认0
-    keepAliveTimeMs: 0
+    corePoolSize: 10
+    # 最大线程数.默认: 20。最大<=2147483647
+    maximumPoolSize: 20
+    # 线程队列大小。默认：20。最大<=2147483647
+    queueSize: 20
+    # 线程存活时间。单位：秒.默认 10 秒钟
+    keepAliveTimeMs: 10
   # 输入数据传输器的配置
   inputTransport:
     # 传输器id。可选：default、buffer
     id: buffer
     # 转换器的参数。当前配置参数为 buffer 需要的参数
     params:
-      # 缓冲大小。必须为 2 的n次方
-      bufferSize: 65536
-      # 缓冲消费者等待策略, 可选: sleeping, yielding, blocking, busy_spinning
+      # 缓冲大小。必须为 2 的n次方。默认：1024
+      bufferSize: 1024
+      # 缓冲消费者等待策略, 可选: sleeping, yielding, blocking, busySpinning. 默认: blocking
       waitStrategy: blocking
-      # 缓冲消费池的消费者数量
+      # 缓冲消费池的消费者数量. 默认：1
       consumePoolSize: 1
   # 输出数据传输器的配置。同 inputTransport 配置
   outputTransport:
+    # buffer 配置同 inputTransport->buffer
     id: buffer
     params:
-      bufferSize: 65536
+      bufferSize: 1024
       waitStrategy: blocking
       consumePoolSize: 1
   # 流程存储的配置
@@ -83,6 +101,13 @@ rope-core:
         storePath: .//data//process//yml
     # 内存流程存储者
     - id: memory
+
+# 系统内部周期性调度者的配置
+periodical:
+  # 普通调度者线程池大小。默认: 1
+  periodicalPoll: 1
+  # Daemon 调度者线程池大小。默认：1
+  periodicalDaemonPoll: 1
 
 plugin:
   # 运行项目时的模式。分为开发环境(dev)、生产环境(prod)

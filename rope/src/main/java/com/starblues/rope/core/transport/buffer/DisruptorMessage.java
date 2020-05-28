@@ -18,6 +18,7 @@ public class DisruptorMessage<T> {
 
     public static <T>  void transform(DisruptorMessage<T> disruptorMessage1, DisruptorMessage<T> disruptorMessage2){
         disruptorMessage1.setMessage(disruptorMessage2.getMessage());
+        disruptorMessage2.setMessage(null);
     }
 
 }
