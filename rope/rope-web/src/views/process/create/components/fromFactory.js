@@ -202,7 +202,6 @@ const getBoolean = (config) => {
         defaultValue = "false";
     }
 
-    console.log(defaultValue);
 
     return {
         type: "switch",

@@ -1,6 +1,6 @@
 <template>
     <div v-if="refresh">
-        <avue-form :option="option" v-model="form" @submit="currentHandleSubmit">
+        <avue-form :option="option" v-model="formData" @submit="currentHandleSubmit">
         </avue-form>
     </div>
 
@@ -35,7 +35,6 @@
         },
         data() {
             return {
-                form: {},
                 refresh: false,
                 option: {
                     icon:'el-icon-info',
@@ -44,18 +43,30 @@
                     column: [
 
                     ]
-                }
+                },
+                formData: {}
             }
         },
         methods: {
             currentHandleSubmit(form, done){
                 const f = {};
-                for(var key in form){
-                    if(key.indexOf("$") !== 0){
-                        f[key] = form[key];
+                const columns = this.option.column;
+                for(let key in form){
+                    for(let j=0; j<columns.length; j++){
+                        const prop = columns[j].prop;
+                        if(prop && prop === key){
+                            if(key.indexOf("$") !== 0){
+                                f[key] = form[key];
+                            }
+                        }
                     }
                 }
+                console.log(f);
+                done();
                 this.handleSubmit(f, done);
+            },
+            clear(){
+
             }
         },
         watch: {
