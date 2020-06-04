@@ -55,7 +55,6 @@ public class HttpAcceptInputRouter extends BaseResource {
                 while ((line = streamReader.readLine()) != null) {
                     stringBuilder.append(line);
                 }
-                System.out.println(stringBuilder.toString());
                 abstractHttpAcceptInput.consumeMessage(stringBuilder.toString());
                 return responseBody(Result.ResponseEnum.OPERATE_SUCCESS);
             } else {
