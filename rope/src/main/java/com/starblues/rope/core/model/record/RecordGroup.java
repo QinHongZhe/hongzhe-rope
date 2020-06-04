@@ -35,6 +35,17 @@ public class RecordGroup {
         this.records = Lists.newArrayList();
     }
 
+    /**
+     * 得到单记录的记录组
+     * @param record 单记录
+     * @return 记录组
+     */
+    public static RecordGroup singleRecord(Record record){
+        RecordGroup recordGroup = new RecordGroup();
+        recordGroup.addRecord(record);
+        return recordGroup;
+    }
+
 
     /**
      * 添加单条记录
@@ -61,6 +72,24 @@ public class RecordGroup {
             addRecord(record);
         }
     }
+
+    /**
+     * 添加记录组的多条记录
+     * @param recordGroup 记录
+     */
+    public void addRecordGroup(RecordGroup recordGroup){
+        if(recordGroup == null){
+            return;
+        }
+        List<Record> records = recordGroup.getRecords();
+        if(records == null || records.isEmpty()){
+            return;
+        }
+        for (Record record : records) {
+            this.addRecord(record);
+        }
+    }
+
 
 
     /**

@@ -9,7 +9,7 @@
             </el-option>
         </el-select>
 
-        <dynamicForm label="数据处理者配置" :configParam="configParam" :handleSubmit="handleSubmit" :form="form" />
+        <dynamicForm label="数据处理者配置" :configParam="configParam" :handleSubmit="handleSubmit" />
 
 
         <br/><br/>
@@ -39,7 +39,6 @@
         data() {
             return {
                 obj:{},
-                form: {},
                 configs: [],
                 configValue: '',
                 configParam: {},
@@ -86,7 +85,6 @@
                     params: form
                 };
                 this.$store.commit("addDateHandler", dateHandler);
-                this.form = {};
                 done();
                 this.$message({
                     message: `新增数据处理者成功`,

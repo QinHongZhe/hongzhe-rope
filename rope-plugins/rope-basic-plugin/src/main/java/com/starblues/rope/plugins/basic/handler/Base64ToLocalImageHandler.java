@@ -22,23 +22,23 @@ import java.io.*;
 import java.util.Map;
 
 /**
- * 自定义设置固定字段
+ * base64字符转换成本地图片文件
  *
  * @author zhangzhuo
  * @version 1.0
  * @since 2020-05-19
  */
 @Component
-public class Base64ImageHandler implements DateHandler {
+public class Base64ToLocalImageHandler implements DateHandler {
 
     private Logger logger;
 
-    private static final String ID = "base64-image";
+    private static final String ID = "base64-to-local-image";
 
     private final PlaceholderResolver placeholderResolver;
     private Param param = new Param();
 
-    public Base64ImageHandler() {
+    public Base64ToLocalImageHandler() {
         this.placeholderResolver = new PlaceholderResolver();
     }
 
@@ -52,8 +52,9 @@ public class Base64ImageHandler implements DateHandler {
 
 
     @Override
-    public void initialize(String processId) throws Exception {
+    public boolean initialize(String processId) throws Exception {
         logger = PluginLogger.getLogger(this, processId);
+        return true;
     }
 
     @Override
@@ -172,7 +173,7 @@ public class Base64ImageHandler implements DateHandler {
 
     @Override
     public String name() {
-        return "base64图片处理";
+        return "base64转图片";
     }
 
     @Override
@@ -206,7 +207,7 @@ public class Base64ImageHandler implements DateHandler {
         private String imageNameRule;
 
         /**
-         * 图片保存的路径
+         * 本地图片保存的路径
          */
         private String imageSavePath;
 

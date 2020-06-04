@@ -18,6 +18,7 @@ import com.starblues.rope.core.input.support.accept.BaseAcceptInputConfigParamet
 import com.starblues.rope.core.model.record.Column;
 import com.starblues.rope.core.model.record.DefaultRecord;
 import com.starblues.rope.core.model.record.Record;
+import com.starblues.rope.core.model.record.RecordGroup;
 import com.starblues.rope.utils.ExceptionMsgUtils;
 import com.starblues.rope.utils.PluginLogger;
 import lombok.Getter;
@@ -177,8 +178,8 @@ public class KafkaInput extends AbstractAcceptInput {
                 String value = consumerRecord.value();
                 if(inputConverter != null){
                     // 如果配置了输入转换器, 则使用转换器
-                    Record convertRecord = inputConverter.convert(value);
-                    consumer.accept(convertRecord);
+                    RecordGroup recordGroup = inputConverter.convert(value);
+                    consumer.accept(recordGroup);
                 } else {
                     // 如果没有使用输入转换器。则使用默认的
                     Record record = new DefaultRecord();

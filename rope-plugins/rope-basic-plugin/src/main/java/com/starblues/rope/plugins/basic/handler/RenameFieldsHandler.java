@@ -13,18 +13,17 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * 自定义设置固定字段
- *
+ * 重命名处理者
  * @author zhangzhuo
  * @version 1.0
- * @since 2020-05-19
+ * @since 2020-06-03
  */
 @Component
-public class SetFixedFieldHandler implements DateHandler {
+public class RenameFieldsHandler implements DateHandler {
 
-    private final static String ID = "set-fixed-field";
+    private static final String ID = "rename-fields";
 
-    private final Param param = new Param();
+    private Param param = new Param();
 
     @Override
     public boolean initialize(String processId) throws Exception {
@@ -37,8 +36,13 @@ public class SetFixedFieldHandler implements DateHandler {
         if(fields == null || fields.isEmpty()){
             return record;
         }
-        fields.forEach((key, value)->{
-            record.putColumn(Column.auto(key, value));
+
+        fields.forEach((key, renameKey) -> {
+            Column column = record.getColumn(key);
+            if(column == null){
+                return;
+            }
+            record.putColumn(Column.auto(renameKey, column));
         });
         return record;
     }
@@ -60,13 +64,14 @@ public class SetFixedFieldHandler implements DateHandler {
 
     @Override
     public String name() {
-        return "设置固定字段";
+        return "重命名";
     }
 
     @Override
     public String describe() {
-        return "可以设置多个固定的自定义字段值";
+        return "重命名字段key";
     }
+
 
     @Getter
     public static class Param implements ConfigParameter{
@@ -74,7 +79,7 @@ public class SetFixedFieldHandler implements DateHandler {
         private static final String P_FIELDS = "fields";
 
         private static final String P_FIELD_KEY = "fieldKey";
-        private static final String P_FIELD_VALUE = "fieldValue";
+        private static final String P_RENAME_FIELD_KEY = "renameFieldKey";
 
 
         /**
@@ -84,7 +89,7 @@ public class SetFixedFieldHandler implements DateHandler {
 
         @Override
         public void parsing(ConfigParamInfo configParamInfo) {
-            fields = configParamInfo.mapping(P_FIELDS, P_FIELD_KEY, P_FIELD_VALUE);
+            fields = configParamInfo.mapping(P_FIELDS, P_FIELD_KEY, P_RENAME_FIELD_KEY);
         }
 
         @Override
@@ -92,9 +97,9 @@ public class SetFixedFieldHandler implements DateHandler {
             ConfigParam configParam = new ConfigParam();
 
             configParam.addField(
-                    ListMapField.toBuilder(P_FIELDS, "字段设置", P_FIELD_KEY, P_FIELD_VALUE)
+                    ListMapField.toBuilder(P_FIELDS, "字段设置", P_FIELD_KEY, P_RENAME_FIELD_KEY)
                             .description("自定义设置多个固定字段")
-                            .keyValueDescription("字段的key", "字段的值")
+                            .keyValueDescription("字段的key", "重命名字段的key")
                             .required(false)
                             .build()
             );
@@ -102,5 +107,6 @@ public class SetFixedFieldHandler implements DateHandler {
             return configParam;
         }
     }
+
 
 }

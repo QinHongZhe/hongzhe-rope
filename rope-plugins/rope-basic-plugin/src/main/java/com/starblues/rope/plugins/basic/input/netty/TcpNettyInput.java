@@ -10,6 +10,7 @@ import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.model.record.Column;
 import com.starblues.rope.core.model.record.DefaultRecord;
 import com.starblues.rope.core.model.record.Record;
+import com.starblues.rope.core.model.record.RecordGroup;
 import com.starblues.rope.plugins.basic.input.netty.handler.StringMessageHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
@@ -73,8 +74,8 @@ public class TcpNettyInput extends AbstractTcpInput<String>{
 
 
     @Override
-    public void initialize() throws Exception {
-        super.initialize();
+    public void init() throws Exception {
+        super.init();
         boolean nullDelimiter = config.isNullDelimiter();
         if(nullDelimiter){
             delimiter = Delimiters.nulDelimiter();
@@ -89,10 +90,10 @@ public class TcpNettyInput extends AbstractTcpInput<String>{
     }
 
     @Override
-    protected Record customConvert(String sourceMessage) {
+    protected RecordGroup customConvert(String sourceMessage) {
         Record record = DefaultRecord.instance();
         record.putColumn(Column.defaultAuto(sourceMessage));
-        return record;
+        return RecordGroup.singleRecord(record);
     }
 
 

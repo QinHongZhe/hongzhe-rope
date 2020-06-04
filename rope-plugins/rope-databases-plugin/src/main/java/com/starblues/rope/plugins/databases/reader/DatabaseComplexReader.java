@@ -178,7 +178,7 @@ public class DatabaseComplexReader implements Reader {
         /**
          * 分页类型, start-to-end, start-to-size
          */
-        private String pageType;
+        private String pageType = PAGE_TYPE_START_TO_SIZE;
 
         /**
          * 页大小。默认 1000
@@ -219,45 +219,40 @@ public class DatabaseComplexReader implements Reader {
                     TextField.toBuilder(
                             P_QUERY_SQL, "查询Sql", "")
                         .attribute(TextField.Attribute.TEXTAREA)
-                        .description("从数据库查询数据的Sql. 尽可能不要使用 * 查询, 如果分页查询, 请使用占位符填充分页参数")
+                        .description("从数据库查询数据的Sql. 尽可能不要使用 * 查询, 如果分页查询, 使用 :page_1 代替开始数字, " +
+                                ":page_2 代替结束数字/分页大小")
                         .required(true)
                         .build()
             );
 
             configParam.addField(
                     BooleanField.toBuilder(P_IS_PAGE_QUERY, "是否分页查询", false)
-                            .description("如果分页查询, 查询sql请使用占位符填充分页参数")
+                            .description("如果分页查询, 查询sql请使用占位符[:page_1、:page_2]填充分页参数")
                             .required(true)
                             .build()
             );
 
             configParam.addField(
                     DropdownField.toBuilder(P_PAGE_TYPE, "分页类型", PAGE_TYPE_START_TO_SIZE, PAGE_TYPES)
-                            .required(true)
+                            .required(false)
                             .description("分页类型/参考mysql与oracle分页数字的区别")
                             .build()
             );
 
-            configParam.addField(
-                    DropdownField.toBuilder(P_PAGE_TYPE, "分页类型", PAGE_TYPE_START_TO_SIZE, PAGE_TYPES)
-                            .required(true)
-                            .description("分页类型/参考mysql与oracle分页数字的区别")
-                            .build()
-            );
 
             configParam.addField(
                     NumberField.toBuilder(
                             P_PAGE_SIZE, "页大小", pageSize)
                             .description("当前查询的页大小")
                             .attribute(NumberField.Attribute.ONLY_POSITIVE)
-                            .required(true)
+                            .required(false)
                             .build()
             );
 
             configParam.addField(
                     NumberField.toBuilder(
                             P_PAGE_START_NUM, "起始页数", pageStartNum)
-                            .description("第一次查询的起始页数, 默认：" + pageType)
+                            .description("第一次查询的起始页数, 默认：" + pageStartNum)
                             .attribute(NumberField.Attribute.ONLY_POSITIVE)
                             .required(false)
                             .build()

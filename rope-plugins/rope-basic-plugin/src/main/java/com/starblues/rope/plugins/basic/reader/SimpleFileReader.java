@@ -64,7 +64,7 @@ public class SimpleFileReader implements Reader {
         RecordGroup recordGroup = new RecordGroup();
         if(inputConverter != null){
             for (String line : lines) {
-                recordGroup.addRecord(inputConverter.convert(line));
+                recordGroup.addRecordGroup(inputConverter.convert(line));
             }
         } else {
             for (int i = 0; i < lines.size(); i++) {

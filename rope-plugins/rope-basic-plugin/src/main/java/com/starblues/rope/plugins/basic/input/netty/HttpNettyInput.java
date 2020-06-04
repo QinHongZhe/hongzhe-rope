@@ -11,7 +11,9 @@ import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.model.record.Column;
 import com.starblues.rope.core.model.record.DefaultRecord;
 import com.starblues.rope.core.model.record.Record;
+import com.starblues.rope.core.model.record.RecordGroup;
 import com.starblues.rope.plugins.basic.input.netty.handler.StringMessageHandler;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.timeout.ReadTimeoutHandler;
@@ -30,20 +32,23 @@ import static io.netty.handler.codec.http.HttpResponseStatus.*;
 import static io.netty.handler.codec.http.HttpHeaderNames.*;
 import static io.netty.handler.codec.http.HttpUtil.is100ContinueExpected;
 import static io.netty.handler.codec.http.HttpUtil.isKeepAlive;
+import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 /**
+ *
  * http netty 输入
  *
  * @author zhangzhuo
  * @version 1.0
+ * @see com.starblues.rope.core.input.support.accept.AbstractHttpAcceptInput 子类替代
  */
 @Slf4j
-@Component
+@Deprecated
 public class HttpNettyInput extends AbstractTcpInput<String>{
 
-    private static final int DEFAULT_MAX_INITIAL_LINE_LENGTH = 4096;
-    private static final int DEFAULT_MAX_HEADER_SIZE = 8192;
-    private static final int DEFAULT_MAX_CHUNK_SIZE = 65536;
+    private static final int DEFAULT_MAX_INITIAL_LINE_LENGTH = Integer.MAX_VALUE;
+    private static final int DEFAULT_MAX_HEADER_SIZE = Integer.MAX_VALUE;
+    private static final int DEFAULT_MAX_CHUNK_SIZE = Integer.MAX_VALUE;
 
     private final static String ID = "http";
     private final Config config;
@@ -78,7 +83,7 @@ public class HttpNettyInput extends AbstractTcpInput<String>{
         }
         final int maxChunkSize = tempMaxChunkSize;
 
-        handlerList.put("decoder", () -> new HttpRequestDecoder(DEFAULT_MAX_INITIAL_LINE_LENGTH,
+        handlerList.put("decoder", () -> new HttpServerCodec(DEFAULT_MAX_INITIAL_LINE_LENGTH,
                 DEFAULT_MAX_HEADER_SIZE, maxChunkSize));
 
         handlerList.put("aggregator", () -> new HttpObjectAggregator(config.getMaxChunkSize()));
@@ -130,10 +135,10 @@ public class HttpNettyInput extends AbstractTcpInput<String>{
     }
 
     @Override
-    protected Record customConvert(String sourceMessage) {
+    protected RecordGroup customConvert(String sourceMessage) {
         Record record = DefaultRecord.instance();
         record.putColumn(Column.defaultAuto(sourceMessage));
-        return record;
+        return RecordGroup.singleRecord(record);
     }
 
 
@@ -154,7 +159,7 @@ public class HttpNettyInput extends AbstractTcpInput<String>{
                                     FullHttpRequest request) throws Exception {
             if (is100ContinueExpected(request)) {
                 ctx.write(new DefaultFullHttpResponse(
-                        HttpVersion.HTTP_1_1,
+                        HTTP_1_1,
                         CONTINUE));
             }
 
@@ -162,10 +167,12 @@ public class HttpNettyInput extends AbstractTcpInput<String>{
             final HttpVersion httpRequestVersion = request.protocolVersion();
             final String origin = request.headers().get(ORIGIN);
 
-            if (HttpMethod.OPTIONS.equals(request.method())) {
+            String methodName = request.method().name();
+
+            if (HttpMethod.OPTIONS.name().equalsIgnoreCase(methodName)) {
                 writeResponse(ctx, keepAlive, httpRequestVersion, OK, origin);
                 return;
-            } else if (!HttpMethod.POST.equals(request.method())) {
+            } else if (!HttpMethod.POST.name().equalsIgnoreCase(methodName)) {
                 // 不是post请求，返回方法不允许
                 writeResponse(ctx, keepAlive, httpRequestVersion, METHOD_NOT_ALLOWED, origin);
                 return;
@@ -208,6 +215,18 @@ public class HttpNettyInput extends AbstractTcpInput<String>{
         @Override
         public void channelReadComplete(ChannelHandlerContext ctx) {
             ctx.flush();
+        }
+
+        @Override
+        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+            super.exceptionCaught(ctx, cause);
+            if (ctx.channel().isActive()) {
+                FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1,
+                        HttpResponseStatus.INTERNAL_SERVER_ERROR, Unpooled.copiedBuffer("Failure: " + HttpResponseStatus.INTERNAL_SERVER_ERROR.toString()
+                        + "\r\n", CharsetUtil.UTF_8));
+                response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain; charset=UTF-8");
+                ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
+            }
         }
     }
 

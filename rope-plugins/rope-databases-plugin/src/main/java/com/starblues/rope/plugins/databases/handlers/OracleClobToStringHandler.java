@@ -35,8 +35,8 @@ public class OracleClobToStringHandler implements DateHandler {
 
 
     @Override
-    public void initialize(String processId) throws Exception {
-
+    public boolean initialize(String processId) throws Exception {
+        return true;
     }
 
     @Override

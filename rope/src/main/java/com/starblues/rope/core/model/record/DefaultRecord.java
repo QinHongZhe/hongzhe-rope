@@ -1,11 +1,11 @@
 package com.starblues.rope.core.model.record;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.starblues.rope.utils.ClassSize;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 默认的记录
@@ -59,13 +59,12 @@ public class DefaultRecord implements Record{
             decrByteSize(oldColumn);
             columns.remove(key);
         }
-        columns.put(key, column);
         incrByteSize(column);
         columns.put(column.getKey(), column);
     }
 
     @Override
-    public synchronized void removeColumn(String key) {
+    public void removeColumn(String key) {
         Column column = columns.get(key);
         if(column == null){
             return;
@@ -93,7 +92,7 @@ public class DefaultRecord implements Record{
 
     @Override
     public Set<String> getColumnKeys() {
-        return Collections.unmodifiableSet(columns.keySet());
+        return Sets.newHashSet(columns.keySet());
     }
 
     @Override

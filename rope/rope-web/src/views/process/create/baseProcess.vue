@@ -102,7 +102,6 @@
         },
         methods: {
             handleSubmit(form, done){
-                console.log(JSON.stringify(form));
                 this.$store.commit("setProcessInfo", form);
                 done();
                 this.$message({

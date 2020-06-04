@@ -1,6 +1,7 @@
 package com.starblues.rope.process.store.support;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.starblues.rope.core.common.config.ProcessConfig;
 import com.starblues.rope.process.factory.ProcessFactory;
 import lombok.Getter;
@@ -31,10 +32,11 @@ public class JsonFileProcessStorage extends AbstractFileProcessStorage {
 
     private final Gson gson;
 
-    public JsonFileProcessStorage(ProcessFactory processFactory,
-                                  Gson gson) {
+    public JsonFileProcessStorage(ProcessFactory processFactory) {
         super(processFactory);
-        this.gson = gson;
+        this.gson = new GsonBuilder()
+                .disableHtmlEscaping()
+                .setPrettyPrinting().create();;
     }
 
 

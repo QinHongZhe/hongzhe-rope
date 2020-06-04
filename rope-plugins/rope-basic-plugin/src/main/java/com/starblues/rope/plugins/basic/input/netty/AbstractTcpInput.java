@@ -65,8 +65,9 @@ public abstract class AbstractTcpInput<Source> extends AbstractAcceptConverterIn
         this.tcpConfig = Objects.requireNonNull(tcpConfig,"tcpConfig can't null");
     }
 
+
     @Override
-    public void initialize() throws Exception {
+    public void init() throws Exception {
         this.socketAddress = new InetSocketAddress(
                 tcpConfig.getBindAddress(),
                 tcpConfig.getPort()

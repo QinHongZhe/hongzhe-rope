@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 简单的文件写入者
@@ -33,6 +34,8 @@ public class SimpleFileWriter extends AbstractConverterWriter<String> {
 
     private final Param param;
     private final Gson gson;
+
+    private AtomicInteger integer = new AtomicInteger(0);
 
     public SimpleFileWriter() {
         this.gson = new Gson();

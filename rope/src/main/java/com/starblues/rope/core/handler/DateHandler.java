@@ -16,8 +16,9 @@ public interface DateHandler extends Identity {
      * 初始化
      * @param processId 流程id
      * @throws Exception 初始化异常
+     * @return 初始化结果。初始化失败, 或者异常, 则将该数据处理者不加入处理流中
      */
-    void initialize(String processId) throws Exception;
+    boolean initialize(String processId) throws Exception;
 
 
     /**

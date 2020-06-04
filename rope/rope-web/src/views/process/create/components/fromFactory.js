@@ -244,6 +244,7 @@ const getListMap = (config) => {
         value = props.valueProp;
     }
 
+
     return {
         type: "dynamic",
         label: lable,

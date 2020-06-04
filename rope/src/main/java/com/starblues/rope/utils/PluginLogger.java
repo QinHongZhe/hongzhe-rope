@@ -15,7 +15,7 @@ public class PluginLogger {
 
 
     public static Logger getLogger(Class<?> aClass, String processId){
-        return LoggerFactory.getLogger(aClass.getName() + "[" + processId + "]");
+        return LoggerFactory.getLogger(aClass.getName() + "-[" + processId + "]");
     }
 
     public static Logger getLogger(Object object, String processId){

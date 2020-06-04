@@ -7,11 +7,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.starblues.rope.utils.Converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -19,6 +22,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -183,6 +187,28 @@ public class ConfigParamInfo implements Serializable {
             }
         }
         return fieldMappings;
+    }
+
+    /**
+     * 字符串分隔, 得到set集合
+     * @param fieldKey 字段key
+     * @param separator 分隔符号
+     * @return 数据集合
+     */
+    public Set<String> getSets(String fieldKey, String separator){
+        if(StringUtils.isEmpty(separator)){
+            separator = ",";
+        }
+        String string = getString(fieldKey);
+        if(StringUtils.isEmpty(string)){
+            return Collections.emptySet();
+        }
+        return Sets.newHashSet(
+                Splitter.on(separator)
+                    .omitEmptyStrings()
+                    .trimResults()
+                    .split(string)
+        );
     }
 
 

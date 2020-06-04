@@ -14,11 +14,13 @@ import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.model.record.Column;
 import com.starblues.rope.core.model.record.DefaultRecord;
 import com.starblues.rope.core.model.record.Record;
+import com.starblues.rope.utils.ParamUtils;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Map;
 
 /**
@@ -41,12 +43,10 @@ public class SimpleExcelReader implements Reader {
     @Override
     public void initialize(String processId) throws Exception {
         String excelFilePath = param.getExcelFilePath();
-        if(StringUtils.isEmpty(excelFilePath)){
-            throw new Exception("excel 文件路径不能为空");
-        }
+        ParamUtils.check(processId, "excelFilePath", excelFilePath);
         excelFile = new File(excelFilePath);
         if(!excelFile.exists()){
-            throw new Exception("excel 文件不存在：" + excelFilePath);
+            throw new FileNotFoundException("Excel file[" + excelFilePath + "] not exist");
         }
     }
 
