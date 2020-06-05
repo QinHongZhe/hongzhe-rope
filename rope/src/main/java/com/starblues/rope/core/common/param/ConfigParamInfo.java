@@ -74,7 +74,16 @@ public class ConfigParamInfo implements Serializable {
 
 
             if (value instanceof String) {
-                strings.put(key, (String) value);
+                String valueString = String.valueOf(value);
+                if("true".equalsIgnoreCase(valueString)){
+                    // boolean - true
+                    bools.put(key,  true);
+                } if("false".equalsIgnoreCase(valueString)){
+                    // boolean - false
+                    bools.put(key,  false);
+                } else {
+                    strings.put(key, (String) value);
+                }
             } else if (value instanceof Integer) {
                 ints.put(key, (Integer) value);
             } else if (value instanceof Long) {

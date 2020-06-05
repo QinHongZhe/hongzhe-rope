@@ -74,7 +74,10 @@ public class DatabaseSimpleWriter extends AbstractWriter {
             }
             fieldMappings
                     .forEach((mapping, tableFiled)->{
-                        if(Objects.equals(tableFiled, param.getId())
+                        if (StringUtils.isEmpty(tableFiled)) {
+                            return;
+                        }
+                        if(tableFiled.equalsIgnoreCase(param.getId())
                                 && Objects.equals(param.getIdType(), Param.ID_TYPE_AUTO)){
                             // 自增字段不加入
                             return;

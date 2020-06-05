@@ -20,6 +20,7 @@ import sun.misc.BASE64Decoder;
 
 import java.io.*;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * base64字符转换成本地图片文件
@@ -83,8 +84,9 @@ public class Base64ToLocalImageHandler implements DateHandler {
         saveImage(base64Image, imageFilePath);
         // 处理图片访问路径
         processImageAccessPath(imageName, record, recordMap);
-        // 处理完成后根据配置删除base64图片
-        if(param.isDeleteBase64ImageString()){
+        // 处理完成后根据配置删除base64`图片
+        if(param.isDeleteBase64ImageString() && !Objects.equals(param.getImageFieldKey(), param.getAccessPathFiledKey())){
+            // 如果图片字段key和访问图片的key不相同, 则进行移除原来存储base64字段的key
             record.removeColumn(param.getImageFieldKey());
         }
         return record;

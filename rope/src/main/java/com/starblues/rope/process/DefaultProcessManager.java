@@ -215,7 +215,7 @@ public class DefaultProcessManager implements ProcessManager{
      */
     private void checkRunning(){
         if(state() != State.RUNNING){
-            throw new RuntimeException("The process " + processConfig.getProcessId() + " is not started");
+            throw new RuntimeException("The process '" + processConfig.getProcessId() + "' is not started");
         }
     }
 

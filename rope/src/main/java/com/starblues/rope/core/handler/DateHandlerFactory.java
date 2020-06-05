@@ -41,6 +41,7 @@ public class DateHandlerFactory {
                 return Objects.equals(impl.id(), dateHandlerConfig.getId());
             });
             if(dateHandler == null){
+                log.error("Not found data handler '{}' of process '{}'", dateHandlerConfig.getId(), processId);
                 continue;
             }
             try {

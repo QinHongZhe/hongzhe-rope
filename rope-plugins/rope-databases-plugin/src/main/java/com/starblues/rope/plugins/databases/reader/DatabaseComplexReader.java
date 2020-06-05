@@ -62,21 +62,22 @@ public class DatabaseComplexReader implements Reader {
         if(param.isPageQuery()){
             // 分页
             // 开始页
-            param.setCurrentNum(param.getPageStartNum());
+            ResolverParam resolverParam = new ResolverParam();
+            resolverParam.currentNum = param.getPageStartNum();
 
             int pageDelayMs = param.getPageDelayMs();
 
             while (true){
                 List<Map<String, Object>> listMap = jdbi.withHandle(handle -> {
                     Query query = handle.select(param.getQuerySql())
-                            .bind(Param.SIGN_START_PAGE, param.getCurrentNum());
+                            .bind(Param.SIGN_START_PAGE, resolverParam.currentNum);
                     int endNum;
                     if(Objects.equals(Param.PAGE_TYPE_START_TO_END, param.getPageType())){
-                        endNum = param.getCurrentNum() + param.getPageSize();
+                        endNum = resolverParam.currentNum + param.getPageSize();
                     } else {
                         endNum = param.getPageSize();
                     }
-                    param.setCurrentNum(param.getCurrentNum() + param.getPageSize());
+                    resolverParam.currentNum = resolverParam.currentNum + param.getPageSize();
                     return query.bind(Param.SIGN_ENT_PAGE, endNum)
                             .mapToMap()
                             .list();
@@ -159,6 +160,11 @@ public class DatabaseComplexReader implements Reader {
         private static final String P_PAGE_START_NUM = "pageStartNum";
         private static final String P_PAGE_DELAY_MS = "pageDelayMs";
 
+        private static final String P_SYNC_INCREMENT_FIELDS = "syncIncrementFields";
+
+        private static final String P_SYNC_INCREMENT_FIELD = "fieldKey";
+        private static final String P_SYNC_INCREMENT_INIT_VALUE= "initValue";
+
         private static final Map<String, String> PAGE_TYPES = ImmutableMap.of(
                 PAGE_TYPE_START_TO_SIZE, "开始页-页大小",
                 PAGE_TYPE_START_TO_END, "开始页-结束页");
@@ -170,8 +176,8 @@ public class DatabaseComplexReader implements Reader {
         private String querySql;
 
         /**
-         * 如果为分页的话。使用 :page_1 代替开始数字
-         * :page_2 代替结束数字/分页大小
+         * 如果为分页的话。使用 :page1 代替开始数字
+         * :page2 代替结束数字/分页大小
          */
         private boolean isPageQuery;
 
@@ -195,6 +201,13 @@ public class DatabaseComplexReader implements Reader {
          */
         private int pageDelayMs = 0;
 
+        /**
+         * 同步增量字段集合, 值为首次查询时的初始化值
+         * 如果配置了该字段, 则系统进行数据增量.多个字段使用逗号分隔。设置了该字段, 则需要在sql中使用 :filed 进行预填充
+         *
+         */
+        private Map<String, String> syncIncrementFields;
+
 
         public Param(DatabasesConfig databasesConfig) {
             super(databasesConfig);
@@ -209,6 +222,7 @@ public class DatabaseComplexReader implements Reader {
             this.pageSize = configParamInfo.getInt(P_PAGE_SIZE, pageSize);
             this.pageStartNum = configParamInfo.getInt(P_PAGE_START_NUM, pageStartNum);
             this.pageDelayMs = configParamInfo.getInt(P_PAGE_DELAY_MS, pageDelayMs);
+            this.syncIncrementFields = configParamInfo.mapping(P_SYNC_INCREMENT_FIELDS, P_SYNC_INCREMENT_FIELD, P_SYNC_INCREMENT_INIT_VALUE);
         }
 
         @Override
@@ -219,15 +233,15 @@ public class DatabaseComplexReader implements Reader {
                     TextField.toBuilder(
                             P_QUERY_SQL, "查询Sql", "")
                         .attribute(TextField.Attribute.TEXTAREA)
-                        .description("从数据库查询数据的Sql. 尽可能不要使用 * 查询, 如果分页查询, 使用 :page_1 代替开始数字, " +
-                                ":page_2 代替结束数字/分页大小")
+                        .description("从数据库查询数据的Sql. 尽可能不要使用 * 查询, 如果分页查询, 使用 :page1 代替开始数字, " +
+                                ":page2 代替结束数字/分页大小")
                         .required(true)
                         .build()
             );
 
             configParam.addField(
                     BooleanField.toBuilder(P_IS_PAGE_QUERY, "是否分页查询", false)
-                            .description("如果分页查询, 查询sql请使用占位符[:page_1、:page_2]填充分页参数")
+                            .description("如果分页查询, 查询sql请使用占位符[:page1、:page2]填充分页参数")
                             .required(true)
                             .build()
             );
@@ -269,18 +283,15 @@ public class DatabaseComplexReader implements Reader {
 
         }
 
+
+    }
+
+    private class ResolverParam{
         /**
          * 解决lambda 无法修改变量的问题
          */
         private int currentNum;
 
-
-        public int getCurrentNum() {
-            return currentNum;
-        }
-
-        public void setCurrentNum(int currentNum) {
-            this.currentNum = currentNum;
-        }
     }
+
 }
