@@ -60,6 +60,11 @@
                             search: true,
                         },
                         {
+                            label: '名称',
+                            prop: 'name',
+                            search: false,
+                        },
+                        {
                             label: '流程状态',
                             prop: 'state'
                         }
