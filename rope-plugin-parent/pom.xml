@@ -8,7 +8,8 @@
     <parent>
         <groupId>com.gitee.starblues</groupId>
         <artifactId>rope-parent</artifactId>
-        <version>1.0.2.RELEASE</version>
+        <version>1.1.0.RELEASE</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>rope-plugin-parent</artifactId>
@@ -22,7 +23,7 @@
         <plugin.provider/>
         <plugin.description/>
 
-        <rope-version>1.0.2.RELEASE</rope-version>
+        <rope-version>1.1.0.RELEASE</rope-version>
         <lombok.version>1.18.10</lombok.version>
         <junit.version>4.13</junit.version>
 
