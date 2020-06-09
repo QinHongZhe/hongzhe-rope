@@ -26,9 +26,7 @@ public class CommonBeanConfig {
 
     @Bean
     public Gson gson(){
-        return new GsonBuilder()
-                .disableHtmlEscaping()
-                .setPrettyPrinting().create();
+        return new Gson();
     }
 
 

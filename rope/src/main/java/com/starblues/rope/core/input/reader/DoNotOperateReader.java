@@ -1,5 +1,7 @@
 package com.starblues.rope.core.input.reader;
 
+import com.starblues.rope.core.input.reader.consumer.Consumer;
+
 /**
  * 不可操作的Reader
  *

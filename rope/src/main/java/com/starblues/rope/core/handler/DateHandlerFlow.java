@@ -24,8 +24,9 @@ public class DateHandlerFlow implements DateHandler {
     }
 
     @Override
-    public void initialize(String processId) throws Exception {
+    public boolean initialize(String processId) throws Exception {
         // no thing
+        return true;
     }
 
     @Override
@@ -41,9 +42,8 @@ public class DateHandlerFlow implements DateHandler {
                     return null;
                 }
             } catch (Exception e) {
-                log.error("The DateHandler '{}' handle record ['']  failed. " +
-                                "And discarded this record. {}",
-                        dateHandler.id(), e.getMessage(), e);
+                // 如果处理异常, 则丢弃该消息
+                log.error("DateHandler '{}' hand data error, discard current record", dateHandler.id(),  e);
                 return null;
             }
         }

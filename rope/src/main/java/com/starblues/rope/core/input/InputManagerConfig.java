@@ -1,10 +1,8 @@
 package com.starblues.rope.core.input;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.Data;
 
 import java.util.Properties;
-import java.util.concurrent.ThreadFactory;
 
 /**
  * 输入管理者的配置
@@ -15,9 +13,30 @@ import java.util.concurrent.ThreadFactory;
 @Data
 public class InputManagerConfig {
 
-
+    private OneInput oneInput;
     private PeriodAcquireInput periodAcquire;
-    private Properties quartz;
+    private Properties quartzProp;
+
+    /**
+     * 一次性输入的的配置
+     */
+    public static class OneInput{
+
+        public static final int DEFAULT_THREAD_NUMBER = 2;
+
+        /**
+         * 线程数
+         */
+        private int threadNumber = DEFAULT_THREAD_NUMBER;
+
+        public int getThreadNumber() {
+            return threadNumber;
+        }
+
+        public void setThreadNumber(int threadNumber) {
+            this.threadNumber = threadNumber;
+        }
+    }
 
     /**
      * 周期性输入的配置
@@ -25,13 +44,6 @@ public class InputManagerConfig {
     public static class PeriodAcquireInput{
 
         private int corePoolSize = 0;
-        private ThreadFactory threadFactory;
-
-        public PeriodAcquireInput(){
-            threadFactory = new ThreadFactoryBuilder()
-                    .setNameFormat("PeriodAcquireReaderInput-Pool-%d")
-                    .build();
-        }
 
         public int getCorePoolSize() {
             return corePoolSize;
@@ -41,9 +53,6 @@ public class InputManagerConfig {
             this.corePoolSize = corePoolSize;
         }
 
-        public ThreadFactory getThreadFactory() {
-            return threadFactory;
-        }
     }
 
 

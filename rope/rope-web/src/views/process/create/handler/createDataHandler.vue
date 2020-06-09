@@ -9,7 +9,7 @@
             </el-option>
         </el-select>
 
-        <dynamicForm label="数据处理者配置" :configParam="configParam" :handleSubmit="handleSubmit"/>
+        <dynamicForm label="数据处理者配置" :configParam="configParam" :handleSubmit="handleSubmit" />
 
 
         <br/><br/>
@@ -41,7 +41,6 @@
                 obj:{},
                 configs: [],
                 configValue: '',
-                form: {},
                 configParam: {},
                 configTableData: []
             }

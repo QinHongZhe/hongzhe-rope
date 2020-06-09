@@ -4,6 +4,7 @@ import com.gitee.starblues.integration.application.PluginApplication;
 import com.gitee.starblues.integration.user.PluginUser;
 import com.starblues.rope.core.common.param.ConfigParameter;
 import com.starblues.rope.core.model.record.Record;
+import com.starblues.rope.core.model.record.RecordGroup;
 import com.starblues.rope.process.ProcessManager;
 import com.starblues.rope.core.common.config.CommonConfig;
 import com.starblues.rope.core.common.config.ProcessConfig;
@@ -74,7 +75,7 @@ public class ConverterFactory {
         AbstractInputConverter inputConverter = CommonUtils.getImpls(pluginUser, AbstractInputConverter.class, impl->{
             return Objects.equals(impl.id(), converterConfig.getId()) &&
                     Objects.equals(impl.sourceClass(), sourceClass) &&
-                    Objects.equals(impl.targetClass(), Record.class);
+                    Objects.equals(impl.targetClass(), RecordGroup.class);
         });
         initConverter(processId, converterConfig, inputConverter);
         return inputConverter;

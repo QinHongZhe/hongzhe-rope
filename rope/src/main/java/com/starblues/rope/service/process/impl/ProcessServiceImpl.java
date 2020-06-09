@@ -1,6 +1,7 @@
 package com.starblues.rope.service.process.impl;
 
 import com.google.common.collect.Lists;
+import com.starblues.rope.core.common.config.ProcessConfig;
 import com.starblues.rope.process.ProcessManager;
 import com.starblues.rope.process.factory.ProcessFactory;
 import com.starblues.rope.service.process.ProcessService;
@@ -96,10 +97,14 @@ public class ProcessServiceImpl implements ProcessService {
         if(processManager == null){
             return null;
         }
-        return ProcessInfo.builder()
+        ProcessInfo.ProcessInfoBuilder builder = ProcessInfo.builder()
                 .processId(processManager.getProcessId())
-                .state(processManager.state())
-                .build();
+                .state(processManager.state());
+        ProcessConfig processConfig = processManager.getProcessConfig();
+        if(processConfig != null){
+            builder = builder.name(processConfig.getName());
+        }
+        return builder.build();
     }
 
 }

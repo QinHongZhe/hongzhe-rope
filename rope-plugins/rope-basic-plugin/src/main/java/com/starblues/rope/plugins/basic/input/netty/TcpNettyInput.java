@@ -6,10 +6,11 @@ import com.starblues.rope.core.common.param.ConfigParamInfo;
 import com.starblues.rope.core.common.param.fields.BooleanField;
 import com.starblues.rope.core.common.param.fields.NumberField;
 import com.starblues.rope.core.converter.ConverterFactory;
-import com.starblues.rope.core.input.reader.Consumer;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.model.record.Column;
 import com.starblues.rope.core.model.record.DefaultRecord;
 import com.starblues.rope.core.model.record.Record;
+import com.starblues.rope.core.model.record.RecordGroup;
 import com.starblues.rope.plugins.basic.input.netty.handler.StringMessageHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
@@ -73,8 +74,8 @@ public class TcpNettyInput extends AbstractTcpInput<String>{
 
 
     @Override
-    public void initialize() throws Exception {
-        super.initialize();
+    public void init() throws Exception {
+        super.init();
         boolean nullDelimiter = config.isNullDelimiter();
         if(nullDelimiter){
             delimiter = Delimiters.nulDelimiter();
@@ -89,10 +90,10 @@ public class TcpNettyInput extends AbstractTcpInput<String>{
     }
 
     @Override
-    protected Record customConvert(String sourceMessage) {
+    protected RecordGroup customConvert(String sourceMessage) {
         Record record = DefaultRecord.instance();
         record.putColumn(Column.defaultAuto(sourceMessage));
-        return record;
+        return RecordGroup.singleRecord(record);
     }
 
 
@@ -117,8 +118,8 @@ public class TcpNettyInput extends AbstractTcpInput<String>{
     @ToString
     private static class Config extends AbstractTcpInput.TcpConfig{
 
-        public static final String USE_NULL_DELIMITER = "use_null_delimiter";
-        private static final String MAX_MESSAGE_SIZE = "max_message_size";
+        public static final String USE_NULL_DELIMITER = "useNullDelimiter";
+        private static final String MAX_MESSAGE_SIZE = "maxMessageSize";
 
         private boolean nullDelimiter = false;
         private int maxMessageSize;

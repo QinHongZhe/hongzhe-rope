@@ -9,7 +9,6 @@ import com.starblues.rope.core.output.writer.AbstractConverterWriter;
 import com.starblues.rope.core.output.writer.BaseWriterConfigParameter;
 import com.starblues.rope.plugins.basic.utils.FileUtils;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedWriter;
@@ -18,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 简单的文件写入者
@@ -26,7 +26,6 @@ import java.util.List;
  * @version 1.0
  */
 @Component
-@Slf4j
 public class SimpleFileWriter extends AbstractConverterWriter<String> {
 
     public static final String ID = "simple-file";
@@ -35,6 +34,8 @@ public class SimpleFileWriter extends AbstractConverterWriter<String> {
 
     private final Param param;
     private final Gson gson;
+
+    private AtomicInteger integer = new AtomicInteger(0);
 
     public SimpleFileWriter() {
         this.gson = new Gson();

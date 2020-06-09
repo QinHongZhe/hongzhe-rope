@@ -1,7 +1,8 @@
-package com.starblues.rope.core.input.reader;
+package com.starblues.rope.core.input.reader.consumer;
 
 import com.starblues.rope.core.common.State;
 import com.starblues.rope.core.common.StateControl;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.model.record.Record;
 import com.starblues.rope.core.model.record.RecordGroup;
 
@@ -12,7 +13,7 @@ import com.starblues.rope.core.model.record.RecordGroup;
  * @author zhangzhuo
  * @version 1.0
  */
-public abstract class AbstractStateConsumer implements Consumer{
+public abstract class AbstractStateConsumer implements Consumer {
 
     private final StateControl stateControl = new StateControl();
 

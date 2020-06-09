@@ -34,5 +34,9 @@ public class OutputDataWrapper {
         return cacheDataWrapper;
     }
 
+    public void clean(){
+        data.clear();
+        data = null;
+    }
 
 }

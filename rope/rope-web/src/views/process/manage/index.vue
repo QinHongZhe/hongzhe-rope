@@ -60,6 +60,11 @@
                             search: true,
                         },
                         {
+                            label: '名称',
+                            prop: 'name',
+                            search: false,
+                        },
+                        {
                             label: '流程状态',
                             prop: 'state'
                         }
@@ -76,7 +81,7 @@
                     return false;
                 }
             },
-            beforeOpen(done, type){
+            beforeOpen(done){
                 done();
             },
             refresh(){

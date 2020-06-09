@@ -1,12 +1,13 @@
 package com.starblues.rope.plugins.basic.input.netty;
 
 import com.starblues.rope.core.converter.ConverterFactory;
-import com.starblues.rope.core.input.reader.Consumer;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.input.support.accept.AbstractAcceptConverterInput;
 import com.starblues.rope.core.input.support.accept.BaseAcceptInputConfigParameter;
 import com.starblues.rope.core.model.record.Column;
 import com.starblues.rope.core.model.record.DefaultRecord;
 import com.starblues.rope.core.model.record.Record;
+import com.starblues.rope.core.model.record.RecordGroup;
 import com.starblues.rope.plugins.basic.input.netty.confg.NettyInputConfig;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -68,14 +69,14 @@ public class UdpTcpInput extends AbstractAcceptConverterInput<String> {
     }
 
     @Override
-    protected Record customConvert(String sourceMessage) {
+    protected RecordGroup customConvert(String sourceMessage) {
         Record record = DefaultRecord.instance();
         record.putColumn(Column.defaultAuto(sourceMessage));
-        return record;
+        return RecordGroup.singleRecord(record);
     }
 
     @Override
-    public void initialize() throws Exception {
+    public void init() throws Exception {
         this.socketAddress = new InetSocketAddress(
                 nettyInputConfig.getBindAddress(),
                 nettyInputConfig.getPort()

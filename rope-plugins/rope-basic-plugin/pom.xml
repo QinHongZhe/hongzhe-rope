@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.gitee.starblues</groupId>
         <artifactId>rope-plugin-parent</artifactId>
-        <version>1.0.2.RELEASE</version>
+        <version>1.1.0.RELEASE</version>
         <relativePath>../../rope-plugin-parent/pom.xml</relativePath>
     </parent>
 
@@ -23,6 +23,7 @@
 
         <kafka_2.12.version>2.0.0</kafka_2.12.version>
         <netty.version>4.1.44.Final</netty.version>
+        <easyexcel.version>2.2.3</easyexcel.version>
     </properties>
 
 
@@ -31,6 +32,18 @@
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka_2.12</artifactId>
             <version>${kafka_2.12.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>${easyexcel.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>

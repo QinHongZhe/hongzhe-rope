@@ -25,6 +25,7 @@ public class DefaultWorkHandler<T> implements IWorkHandler<T> {
         if(message == null){
             return;
         }
+        disruptorMessage.setMessage(null);
         consumer.accept(message);
     }
 

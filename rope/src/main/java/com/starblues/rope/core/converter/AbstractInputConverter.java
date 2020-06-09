@@ -1,6 +1,7 @@
 package com.starblues.rope.core.converter;
 
 import com.starblues.rope.core.model.record.Record;
+import com.starblues.rope.core.model.record.RecordGroup;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -11,7 +12,7 @@ import java.lang.reflect.Type;
  * @author zhangzhuo
  * @version 1.0
  */
-public abstract class AbstractInputConverter<Source> implements Converter<Source, Record>{
+public abstract class AbstractInputConverter<Source> implements Converter<Source, RecordGroup>{
 
     private final Class<Source> sourceClass;
 
@@ -26,10 +27,11 @@ public abstract class AbstractInputConverter<Source> implements Converter<Source
     /**
      * 转换
      * @param source 源数据
-     * @return 目标数据
+     * @return 记录组
      */
     @Override
-    public abstract Record convert(Source source);
+    public abstract RecordGroup convert(Source source);
+
 
 
     @Override
@@ -38,8 +40,8 @@ public abstract class AbstractInputConverter<Source> implements Converter<Source
     }
 
     @Override
-    public Class<Record> targetClass(){
-        return Record.class;
+    public Class<RecordGroup> targetClass(){
+        return RecordGroup.class;
     }
 
 }

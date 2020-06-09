@@ -1,6 +1,7 @@
 package com.starblues.rope.core.common.param.fields;
 
 import com.google.common.collect.Maps;
+import org.springframework.util.StringUtils;
 
 import java.util.Map;
 
@@ -39,6 +40,8 @@ public class ListMapField extends AbstractConfigField{
 
     public static class Builder extends AbstractConfigField.Builder{
 
+        private String keyValueDescription;
+
         public Builder(String fieldType, String name, String humanName) {
             super(fieldType, name, humanName);
         }
@@ -46,6 +49,11 @@ public class ListMapField extends AbstractConfigField{
         @Override
         public Builder description(String description) {
             super.description(description);
+            return this;
+        }
+
+        public Builder keyValueDescription(String keyDescription, String valueDescription) {
+            keyValueDescription = "[key: " + keyDescription + ", value: " + valueDescription + "]";
             return this;
         }
 
@@ -62,6 +70,9 @@ public class ListMapField extends AbstractConfigField{
 
         @Override
         public ListMapField build() {
+            if(!StringUtils.isEmpty(keyValueDescription)){
+                super.description(super.getDescription() + " " + keyValueDescription);
+            }
             return new ListMapField(this);
         }
     }

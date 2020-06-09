@@ -137,17 +137,17 @@ public class TcpNettyWriter extends AbstractConverterWriter<String> {
 
     @Override
     public String id() {
-        return null;
+        return ID;
     }
 
     @Override
     public String name() {
-        return null;
+        return "tcp客户端";
     }
 
     @Override
     public String describe() {
-        return null;
+        return "tcp客户端写入者";
     }
 
     @Slf4j
@@ -231,8 +231,8 @@ public class TcpNettyWriter extends AbstractConverterWriter<String> {
         private final static String HOSTNAME = "hostname";
         private final static String PORT = "port";
 
-        private final static String QUEUE_SIZE = "queue_size";
-        private final static String RETRY_TIME = "retry_time";
+        private final static String QUEUE_SIZE = "queueSize";
+        private final static String RETRY_TIME = "retryTime";
         private final static String TIMEOUT = "timeout";
 
         private String hostname;

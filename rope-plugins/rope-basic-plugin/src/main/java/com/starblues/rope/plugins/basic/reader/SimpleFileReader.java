@@ -7,7 +7,7 @@ import com.starblues.rope.core.common.param.fields.TextField;
 import com.starblues.rope.core.converter.AbstractInputConverter;
 import com.starblues.rope.core.converter.ConverterFactory;
 import com.starblues.rope.core.input.reader.BaseReaderConfigParameter;
-import com.starblues.rope.core.input.reader.Consumer;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.input.reader.Reader;
 import com.starblues.rope.core.model.record.Column;
 import com.starblues.rope.core.model.record.DefaultRecord;
@@ -64,7 +64,7 @@ public class SimpleFileReader implements Reader {
         RecordGroup recordGroup = new RecordGroup();
         if(inputConverter != null){
             for (String line : lines) {
-                recordGroup.addRecord(inputConverter.convert(line));
+                recordGroup.addRecordGroup(inputConverter.convert(line));
             }
         } else {
             for (int i = 0; i < lines.size(); i++) {

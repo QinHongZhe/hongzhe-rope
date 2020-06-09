@@ -43,7 +43,7 @@ public class PeriodicalFactory {
             for (int i = 0; i < periodical.getParallelism(); i++) {
                 Thread t = new Thread(periodical);
                 t.setDaemon(periodical.isDaemon());
-                t.setName("periodical-" + periodical.getClass().getCanonicalName() + "-" + i);
+                t.setName("Periodical-" + periodical.getClass().getCanonicalName() + "-" + i);
                 t.setUncaughtExceptionHandler(new LogUncaughtExceptionHandler(log));
                 t.start();
             }

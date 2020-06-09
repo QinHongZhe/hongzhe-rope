@@ -1,13 +1,12 @@
 <template>
     <div v-if="refresh">
-        <avue-form :option="option" v-model="form" @submit="currentHandleSubmit">
-        </avue-form>
+        <avue-form  :option="option" v-model="formData" @submit="currentHandleSubmit" />
     </div>
-
 </template>
 
 <script>
     import { fromFactory } from './fromFactory.js'
+
 
     export default {
         name: "dynamicForm",
@@ -35,7 +34,6 @@
         },
         data() {
             return {
-                form: {},
                 refresh: false,
                 option: {
                     icon:'el-icon-info',
@@ -44,23 +42,36 @@
                     column: [
 
                     ]
-                }
+                },
+                formData: {}
             }
         },
         methods: {
             currentHandleSubmit(form, done){
                 const f = {};
-                for(var key in form){
-                    if(key.indexOf("$") !== 0){
-                        f[key] = form[key];
+                const columns = this.option.column;
+                console.log(form);
+                for(let key in this.formData){
+                    for(let j=0; j<columns.length; j++){
+                        const prop = columns[j].prop;
+                        if(prop && prop === key){
+                            if(key.indexOf("$") !== 0){
+                                f[key] = this.formData[key];
+                            }
+                        }
                     }
                 }
+                done();
                 this.handleSubmit(f, done);
+            },
+            clear(){
+
             }
         },
         watch: {
             configParam(configParam){
                 this.refresh = false;
+                this.option.column = [];
                 if(configParam){
                     this.option.column = fromFactory(configParam);
                 } else {

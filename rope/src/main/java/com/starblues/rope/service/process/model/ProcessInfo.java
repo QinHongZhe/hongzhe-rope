@@ -18,6 +18,7 @@ public class ProcessInfo {
 
     private String processId;
     private State state;
+    private String name;
 
 
 }

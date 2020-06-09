@@ -68,7 +68,7 @@ public class PluginConfig {
                 .pluginConfigFilePath(pluginConfigFilePath)
                 .uploadTempPath(uploadTempPath)
                 .backupPath(backupPluginPath)
-                .pluginRestControllerPathPrefix("/api/plugin")
+                .pluginRestControllerPathPrefix("/plugin")
                 .enablePluginIdRestControllerPathPrefix(true)
                 .build();
     }

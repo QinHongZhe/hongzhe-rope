@@ -80,6 +80,9 @@
           <el-dropdown-item>
             <router-link to="/">首页</router-link>
           </el-dropdown-item>
+          <el-dropdown-item>
+            <router-link to="/views/admin/user/updatePassword">修改密码</router-link>
+          </el-dropdown-item>
           <el-dropdown-item @click.native="logout"
                             divided>退出系统</el-dropdown-item>
         </el-dropdown-menu>

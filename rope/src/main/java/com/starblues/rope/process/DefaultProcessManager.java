@@ -9,6 +9,7 @@ import com.starblues.rope.core.handler.DateHandlerFactory;
 import com.starblues.rope.core.input.DoNotOperateInput;
 import com.starblues.rope.core.input.Input;
 import com.starblues.rope.core.input.InputFactory;
+import com.starblues.rope.core.input.support.accept.AbstractHttpAcceptInput;
 import com.starblues.rope.core.model.RecordWrapper;
 import com.starblues.rope.core.output.DoNotOperateOutput;
 import com.starblues.rope.core.output.Output;
@@ -185,6 +186,9 @@ public class DefaultProcessManager implements ProcessManager{
     @Override
     public Input getInput() {
         checkRunning();
+        if(input instanceof AbstractHttpAcceptInput){
+            return input;
+        }
         return new DoNotOperateInput(input);
     }
 
@@ -211,7 +215,7 @@ public class DefaultProcessManager implements ProcessManager{
      */
     private void checkRunning(){
         if(state() != State.RUNNING){
-            throw new RuntimeException("The process " + processConfig.getProcessId() + " is not started");
+            throw new RuntimeException("The process '" + processConfig.getProcessId() + "' is not started");
         }
     }
 

@@ -202,7 +202,6 @@ const getBoolean = (config) => {
         defaultValue = "false";
     }
 
-    console.log(defaultValue);
 
     return {
         type: "switch",
@@ -244,6 +243,7 @@ const getListMap = (config) => {
         key = props.keyProp;
         value = props.valueProp;
     }
+
 
     return {
         type: "dynamic",

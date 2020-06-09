@@ -335,6 +335,8 @@ public abstract class AbstractOutput implements Output, ChildLogger {
                 throughputMetric.byteCounter().inc(dataWrapper.getByteSize());
                 throughputMetric.countCounter().inc(dataWrapper.getSize());
             }
+            // 清除数据
+            dataWrapper.clean();
         } catch (Exception e){
             outputException(writer, e);
         }

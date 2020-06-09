@@ -32,6 +32,14 @@ public interface ProcessStorage extends Identity {
     void create(ProcessConfig processConfig) throws Exception;
 
     /**
+     * 存在流程
+     * @param processId 流程id
+     * @return 存在返回 true
+     */
+    boolean exist(String processId);
+
+
+    /**
      * 删除流程
      * @param processId 流程id
      * @throws Exception 删除流程异常

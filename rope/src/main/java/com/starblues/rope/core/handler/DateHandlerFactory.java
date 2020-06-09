@@ -41,6 +41,7 @@ public class DateHandlerFactory {
                 return Objects.equals(impl.id(), dateHandlerConfig.getId());
             });
             if(dateHandler == null){
+                log.error("Not found data handler '{}' of process '{}'", dateHandlerConfig.getId(), processId);
                 continue;
             }
             try {
@@ -48,10 +49,11 @@ public class DateHandlerFactory {
                 dateHandler = pluginUser.generateNewInstance(dateHandler);
                 ConfigParameter configParameter = dateHandler.configParameter();
                 CommonUtils.parsingConfig(configParameter, dateHandlerConfig.getParams());
-                dateHandler.initialize(processId);
-                dateHandlers.add(dateHandler);
+                if(dateHandler.initialize(processId)){
+                    dateHandlers.add(dateHandler);
+                }
             } catch (Exception e) {
-                log.error("DateHandler '{}' initialize failure. {}", dateHandler.id(), e.getMessage(), e);
+                log.error("数据处理者 '{}' 初始化失败. {}", dateHandler.id(), e.getMessage(), e);
             }
         }
         return new DateHandlerFlow(dateHandlers);

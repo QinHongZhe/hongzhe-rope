@@ -20,6 +20,12 @@ public interface Record {
     void putColumn(final Column column);
 
     /**
+     * 移除列
+     * @param key 列的key
+     */
+    void removeColumn(String key);
+
+    /**
      * 得到列集合
      * @return 列数据迭代器
      */

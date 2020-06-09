@@ -7,14 +7,9 @@ import com.starblues.rope.core.common.param.ConfigParamInfo;
 import com.starblues.rope.core.common.param.fields.BooleanField;
 import com.starblues.rope.core.common.param.fields.DropdownField;
 import com.starblues.rope.core.common.param.fields.TextField;
-import com.starblues.rope.core.converter.AbstractInputConverter;
 import com.starblues.rope.core.converter.ConverterFactory;
-import com.starblues.rope.core.input.reader.Consumer;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.input.support.accept.AbstractAcceptConverterInput;
-import com.starblues.rope.core.input.support.accept.AbstractAcceptInput;
-import com.starblues.rope.core.model.record.Column;
-import com.starblues.rope.core.model.record.DefaultRecord;
-import com.starblues.rope.core.model.record.Record;
 import com.starblues.rope.plugins.basic.input.netty.confg.NettyInputConfig;
 import com.starblues.rope.plugins.basic.utils.KeyUtil;
 import io.netty.bootstrap.ServerBootstrap;
@@ -56,7 +51,7 @@ public abstract class AbstractTcpInput<Source> extends AbstractAcceptConverterIn
 
     protected final TcpConfig tcpConfig;
 
-    private Logger log;
+    protected Logger log;
 
     private InetSocketAddress socketAddress;
 
@@ -70,8 +65,9 @@ public abstract class AbstractTcpInput<Source> extends AbstractAcceptConverterIn
         this.tcpConfig = Objects.requireNonNull(tcpConfig,"tcpConfig can't null");
     }
 
+
     @Override
-    public void initialize() throws Exception {
+    public void init() throws Exception {
         this.socketAddress = new InetSocketAddress(
                 tcpConfig.getBindAddress(),
                 tcpConfig.getPort()
@@ -272,20 +268,20 @@ public abstract class AbstractTcpInput<Source> extends AbstractAcceptConverterIn
     @ToString
     protected static class TcpConfig extends NettyInputConfig{
 
-        public static final String USE_NULL_DELIMITER = "use_null_delimiter";
-        private static final String MAX_MESSAGE_SIZE = "max_message_size";
-        private static final String NGINX_PROXY = "is_nginx_proxy";
+        public static final String USE_NULL_DELIMITER = "useNullDelimiter";
+        private static final String MAX_MESSAGE_SIZE = "maxMessageSize";
+        private static final String NGINX_PROXY = "isNginxProxy";
 
 
-        private static final String TCP_KEEPALIVE = "tcp_keepalive";
+        private static final String TCP_KEEPALIVE = "tcpKeepalive";
 
-        private static final String TLS_ENABLE = "tls_enable";
-        private static final String TLS_CERT_FILE = "tls_cert_file";
-        private static final String TLS_KEY_FILE = "tls_key_file";
-        private static final String TLS_KEY_PASSWORD = "tls_key_password";
+        private static final String TLS_ENABLE = "tlsEnable";
+        private static final String TLS_CERT_FILE = "tlsCertFile";
+        private static final String TLS_KEY_FILE = "tlsKeyFile";
+        private static final String TLS_KEY_PASSWORD = "tlsKeyPassword";
 
-        private static final String TLS_CLIENT_AUTH = "tls_client_auth";
-        private static final String TLS_CLIENT_AUTH_TRUSTED_CERT_FILE = "tls_client_auth_trusted_cert_file";
+        private static final String TLS_CLIENT_AUTH = "tlsClientAuth";
+        private static final String TLS_CLIENT_AUTH_TRUSTED_CERT_FILE = "tlsClientAuthTrustedCertFile";
 
 
         public static final String TLS_CLIENT_AUTH_DISABLED = "disabled";

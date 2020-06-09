@@ -35,18 +35,20 @@ public class OutputFactory {
                          PluginUser pluginUser){
         this.pluginUser = pluginUser;
         ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
-                .setNameFormat("Output-Writer-Pool-%d")
+                .setNameFormat("OutputWriter-%d")
                 .build();
         if(pollConfig == null){
             pollConfig = new OutputPollConfig();
         }
-        this.executorService = new ThreadPoolExecutor(
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
                 pollConfig.getCorePoolSize(),
                 pollConfig.getMaximumPoolSize(),
-                pollConfig.getKeepAliveTimeMs(), TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<Runnable>(1024),
+                pollConfig.getKeepAliveTimeSeconds(), TimeUnit.SECONDS,
+                new LinkedBlockingQueue<Runnable>(pollConfig.getQueueSize()),
                 namedThreadFactory,
                 new ThreadPoolExecutor.AbortPolicy());
+        threadPoolExecutor.allowCoreThreadTimeOut(pollConfig.isAllowCoreThreadTimeOut());
+        executorService = threadPoolExecutor;
     }
 
 
@@ -176,15 +178,35 @@ public class OutputFactory {
     @AllArgsConstructor(access = AccessLevel.PUBLIC)
     public static class OutputPollConfig{
 
+        /**
+         * 核心线程数
+         */
         @Builder.Default
-        private int corePoolSize = 100;
+        private int corePoolSize = 10;
 
+        /**
+         * 最大线程数
+         */
         @Builder.Default
-        private int maximumPoolSize = 1024;
+        private int maximumPoolSize = 20;
 
+        /**
+         * 线程队列大小
+         */
         @Builder.Default
-        private long keepAliveTimeMs = 0L;
+        private int queueSize = 20;
 
+        /**
+         * 线程可存活时间。单位秒
+         */
+        @Builder.Default
+        private long keepAliveTimeSeconds = 10L;
+
+        /**
+         * 是否允许核心线程超时。
+         */
+        @Builder.Default
+        private boolean allowCoreThreadTimeOut = true;
 
     }
 }

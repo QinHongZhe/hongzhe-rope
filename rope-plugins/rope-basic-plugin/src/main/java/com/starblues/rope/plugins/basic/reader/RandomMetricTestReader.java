@@ -5,7 +5,7 @@ import com.starblues.rope.core.common.param.ConfigParamInfo;
 import com.starblues.rope.core.common.param.fields.NumberField;
 import com.starblues.rope.core.common.param.fields.TextField;
 import com.starblues.rope.core.input.reader.BaseReaderConfigParameter;
-import com.starblues.rope.core.input.reader.Consumer;
+import com.starblues.rope.core.input.reader.consumer.Consumer;
 import com.starblues.rope.core.input.reader.Reader;
 import com.starblues.rope.core.model.record.Column;
 import com.starblues.rope.core.model.record.DefaultRecord;
@@ -84,7 +84,7 @@ public class RandomMetricTestReader implements Reader {
 
     @Override
     public String name() {
-        return ID;
+        return "随机性能测试";
     }
 
     @Override
@@ -97,9 +97,9 @@ public class RandomMetricTestReader implements Reader {
 
         private static final String KEY = "key";
         private static final String VALUE = "value";
-        private static final String LOOP_NUMBER = "loop_number";
-        private static final String ROW_COUNT = "row_count";
-        private static final String DELAYED_MS = "delayed_ms";
+        private static final String LOOP_NUMBER = "loopNumber";
+        private static final String ROW_COUNT = "rowCount";
+        private static final String DELAYED_MS = "delayedMs";
 
 
         /**

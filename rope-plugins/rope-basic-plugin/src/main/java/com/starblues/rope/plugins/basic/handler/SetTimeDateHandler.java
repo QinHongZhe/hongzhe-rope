@@ -31,8 +31,8 @@ public class SetTimeDateHandler implements DateHandler {
 
 
     @Override
-    public void initialize(String processId) throws Exception {
-
+    public boolean initialize(String processId) throws Exception {
+        return true;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class SetTimeDateHandler implements DateHandler {
 
     @Override
     public String name() {
-        return ID;
+        return "设置指定格式的时间";
     }
 
     @Override
@@ -77,16 +77,16 @@ public class SetTimeDateHandler implements DateHandler {
     @Getter
     public static class Param implements ConfigParameter{
 
-        private static final String KEY = "key";
-        private static final String FORMAT = "format";
+        private static final String P_KEY = "key";
+        private static final String P_FORMAT = "format";
 
         private String key;
         private String format;
 
         @Override
         public void parsing(ConfigParamInfo configParamInfo) {
-            this.key = configParamInfo.getString(KEY);
-            this.format = configParamInfo.getString(FORMAT);
+            this.key = configParamInfo.getString(P_KEY);
+            this.format = configParamInfo.getString(P_FORMAT);
         }
 
         @Override
@@ -94,7 +94,7 @@ public class SetTimeDateHandler implements DateHandler {
             ConfigParam configParam = new ConfigParam();
             configParam.addField(
                     TextField.toBuilder(
-                            KEY, "key", "time")
+                            P_KEY, "key", "time")
                             .description("时间字段的key字段值")
                             .required(true)
                             .build()
@@ -102,7 +102,7 @@ public class SetTimeDateHandler implements DateHandler {
 
             configParam.addField(
                     TextField.toBuilder(
-                            FORMAT, "格式化", "yyyy-MM-dd HH:mm:ss.SSS")
+                            P_FORMAT, "格式化", "yyyy-MM-dd HH:mm:ss.SSS")
                             .description("时间的格式")
                             .required(true)
                             .build()

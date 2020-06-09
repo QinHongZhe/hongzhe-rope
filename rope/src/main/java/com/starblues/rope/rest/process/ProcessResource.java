@@ -1,5 +1,7 @@
 package com.starblues.rope.rest.process;
 
+import com.starblues.rope.process.store.ProcessStorage;
+import com.starblues.rope.process.store.ProcessStorageFactory;
 import com.starblues.rope.rest.common.BaseResource;
 import com.starblues.rope.rest.common.Result;
 import com.starblues.rope.service.process.ProcessService;
@@ -23,9 +25,11 @@ import java.util.List;
 public class ProcessResource extends BaseResource {
 
     private final ProcessService processService;
+    private final ProcessStorageFactory processStorageFactory;
 
-    public ProcessResource(ProcessService processService) {
+    public ProcessResource(ProcessService processService, ProcessStorageFactory processStorageFactory) {
         this.processService = processService;
+        this.processStorageFactory = processStorageFactory;
     }
 
 
@@ -70,8 +74,13 @@ public class ProcessResource extends BaseResource {
     @PostMapping("/remove/{processId}")
     public Result<List<ProcessInfo>> delete(@PathVariable("processId") String processId) {
         try {
-            processService.remove(processId);
-            return responseBody(Result.ResponseEnum.OPERATE_SUCCESS);
+            boolean result = processStorageFactory.delete(processId);
+            if(result){
+                return responseBody(Result.ResponseEnum.OPERATE_SUCCESS);
+            } else {
+                return responseBody(Result.ResponseEnum.OPERATE_ERROR, "删除流程失败");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             return responseBody(Result.ResponseEnum.OPERATE_ERROR, e.getMessage());
