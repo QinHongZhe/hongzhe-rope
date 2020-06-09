@@ -93,7 +93,7 @@ export default {
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
-          { min: 6, message: "密码长度最少为6位", trigger: "blur" }
+          { min: 6, max:20, message: "密码长度最少为6位", trigger: "blur" }
         ],
         code: [
           { required: true, message: "请输入验证码", trigger: "blur" },
@@ -121,7 +121,11 @@ export default {
         ? (this.passwordType = "password")
         : (this.passwordType = "text");
     },
+    /**
+     * 处理登录
+     */
     handleLogin() {
+      //验证表单
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.$store.dispatch("LoginByUsername", this.loginForm).then((result) => {
